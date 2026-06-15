@@ -1,0 +1,413 @@
+{
+  "generado": "2026-06-15T01:52:45.824Z",
+  "resultados": [
+    {
+      "n": 1,
+      "h": "México",
+      "a": "Sudáfrica",
+      "real": "2-0"
+    },
+    {
+      "n": 2,
+      "h": "Corea del Sur",
+      "a": "Chequia",
+      "real": "2-1"
+    },
+    {
+      "n": 3,
+      "h": "Canadá",
+      "a": "Bosnia y Herzegovina",
+      "real": "1-1"
+    },
+    {
+      "n": 4,
+      "h": "Estados Unidos",
+      "a": "Paraguay",
+      "real": "4-1"
+    },
+    {
+      "n": 5,
+      "h": "Catar",
+      "a": "Suiza",
+      "real": "1-1"
+    },
+    {
+      "n": 6,
+      "h": "Brasil",
+      "a": "Marruecos",
+      "real": "1-1"
+    },
+    {
+      "n": 7,
+      "h": "Haití",
+      "a": "Escocia",
+      "real": "0-1"
+    },
+    {
+      "n": 8,
+      "h": "Australia",
+      "a": "Turquía",
+      "real": "2-0"
+    },
+    {
+      "n": 9,
+      "h": "Alemania",
+      "a": "Curazao",
+      "real": "7-1"
+    },
+    {
+      "n": 10,
+      "h": "Países Bajos",
+      "a": "Japón",
+      "real": "2-2"
+    },
+    {
+      "n": 11,
+      "h": "Costa de Marfil",
+      "a": "Ecuador",
+      "real": "1-0"
+    },
+    {
+      "n": 12,
+      "h": "Suecia",
+      "a": "Túnez",
+      "real": null
+    },
+    {
+      "n": 13,
+      "h": "España",
+      "a": "Cabo Verde",
+      "real": null
+    },
+    {
+      "n": 14,
+      "h": "Bélgica",
+      "a": "Egipto",
+      "real": null
+    },
+    {
+      "n": 15,
+      "h": "Arabia Saudita",
+      "a": "Uruguay",
+      "real": null
+    },
+    {
+      "n": 16,
+      "h": "Irán",
+      "a": "Nueva Zelanda",
+      "real": null
+    },
+    {
+      "n": 17,
+      "h": "Francia",
+      "a": "Senegal",
+      "real": null
+    },
+    {
+      "n": 18,
+      "h": "Irak",
+      "a": "Noruega",
+      "real": null
+    },
+    {
+      "n": 19,
+      "h": "Argentina",
+      "a": "Argelia",
+      "real": null
+    },
+    {
+      "n": 20,
+      "h": "Austria",
+      "a": "Jordania",
+      "real": null
+    },
+    {
+      "n": 21,
+      "h": "Portugal",
+      "a": "RD del Congo",
+      "real": null
+    },
+    {
+      "n": 22,
+      "h": "Inglaterra",
+      "a": "Croacia",
+      "real": null
+    },
+    {
+      "n": 23,
+      "h": "Ghana",
+      "a": "Panamá",
+      "real": null
+    },
+    {
+      "n": 24,
+      "h": "Uzbekistán",
+      "a": "Colombia",
+      "real": null
+    },
+    {
+      "n": 25,
+      "h": "República de Chequia",
+      "a": "Sudáfrica",
+      "real": null
+    },
+    {
+      "n": 26,
+      "h": "Suiza",
+      "a": "Bosnia y Herzegovina",
+      "real": null
+    },
+    {
+      "n": 28,
+      "h": "México",
+      "a": "Corea del Sur",
+      "real": null
+    },
+    {
+      "n": 29,
+      "h": "Estados Unidos",
+      "a": "Australia",
+      "real": null
+    },
+    {
+      "n": 30,
+      "h": "Escocia",
+      "a": "Marruecos",
+      "real": null
+    },
+    {
+      "n": 31,
+      "h": "Brasil",
+      "a": "Haití",
+      "real": null
+    },
+    {
+      "n": 32,
+      "h": "Turquía",
+      "a": "Paraguay",
+      "real": null
+    },
+    {
+      "n": 33,
+      "h": "Países Bajos",
+      "a": "Suecia",
+      "real": null
+    },
+    {
+      "n": 34,
+      "h": "Alemania",
+      "a": "Costa de Marfil",
+      "real": null
+    },
+    {
+      "n": 35,
+      "h": "Ecuador",
+      "a": "Curazao",
+      "real": null
+    },
+    {
+      "n": 36,
+      "h": "Japón",
+      "a": "Túnez",
+      "real": null
+    },
+    {
+      "n": 37,
+      "h": "España",
+      "a": "Arabia Saudita",
+      "real": null
+    },
+    {
+      "n": 38,
+      "h": "Bélgica",
+      "a": "Irán",
+      "real": null
+    },
+    {
+      "n": 39,
+      "h": "Uruguay",
+      "a": "Cabo Verde",
+      "real": null
+    },
+    {
+      "n": 40,
+      "h": "Nueva Zelanda",
+      "a": "Egipto",
+      "real": null
+    },
+    {
+      "n": 41,
+      "h": "Francia",
+      "a": "Irak",
+      "real": null
+    },
+    {
+      "n": 42,
+      "h": "Noruega",
+      "a": "Senegal",
+      "real": null
+    },
+    {
+      "n": 43,
+      "h": "Argentina",
+      "a": "Austria",
+      "real": null
+    },
+    {
+      "n": 44,
+      "h": "Argelia",
+      "a": "Jordania",
+      "real": null
+    },
+    {
+      "n": 45,
+      "h": "Portugal",
+      "a": "Uzbekistán",
+      "real": null
+    },
+    {
+      "n": 46,
+      "h": "RD del Congo",
+      "a": "Colombia",
+      "real": null
+    },
+    {
+      "n": 47,
+      "h": "Inglaterra",
+      "a": "Ghana",
+      "real": null
+    },
+    {
+      "n": 48,
+      "h": "Croacia",
+      "a": "Panamá",
+      "real": null
+    },
+    {
+      "n": 51,
+      "h": "Sudáfrica",
+      "a": "Chequia",
+      "real": null
+    },
+    {
+      "n": 53,
+      "h": "Suiza",
+      "a": "Canadá",
+      "real": null
+    },
+    {
+      "n": 54,
+      "h": "Catar",
+      "a": "Bosnia y Herzegovina",
+      "real": null
+    },
+    {
+      "n": 55,
+      "h": "Marruecos",
+      "a": "Haití",
+      "real": null
+    },
+    {
+      "n": 56,
+      "h": "Escocia",
+      "a": "Brasil",
+      "real": null
+    },
+    {
+      "n": 57,
+      "h": "Irán",
+      "a": "Egipto",
+      "real": null
+    },
+    {
+      "n": 58,
+      "h": "Nueva Zelanda",
+      "a": "Bélgica",
+      "real": null
+    },
+    {
+      "n": 59,
+      "h": "Paraguay",
+      "a": "Australia",
+      "real": null
+    },
+    {
+      "n": 60,
+      "h": "Turquía",
+      "a": "Estados Unidos",
+      "real": null
+    },
+    {
+      "n": 61,
+      "h": "Ecuador",
+      "a": "Alemania",
+      "real": null
+    },
+    {
+      "n": 62,
+      "h": "Curazao",
+      "a": "Costa de Marfil",
+      "real": null
+    },
+    {
+      "n": 63,
+      "h": "Túnez",
+      "a": "Países Bajos",
+      "real": null
+    },
+    {
+      "n": 64,
+      "h": "Japón",
+      "a": "Suecia",
+      "real": null
+    },
+    {
+      "n": 65,
+      "h": "Cabo Verde",
+      "a": "Arabia Saudita",
+      "real": null
+    },
+    {
+      "n": 66,
+      "h": "España",
+      "a": "Uruguay",
+      "real": null
+    },
+    {
+      "n": 67,
+      "h": "Senegal",
+      "a": "Irak",
+      "real": null
+    },
+    {
+      "n": 68,
+      "h": "Noruega",
+      "a": "Francia",
+      "real": null
+    },
+    {
+      "n": 69,
+      "h": "Jordania",
+      "a": "Argentina",
+      "real": null
+    },
+    {
+      "n": 70,
+      "h": "Austria",
+      "a": "Argelia",
+      "real": null
+    },
+    {
+      "n": 71,
+      "h": "RD del Congo",
+      "a": "Uzbekistán",
+      "real": null
+    },
+    {
+      "n": 72,
+      "h": "Portugal",
+      "a": "Colombia",
+      "real": null
+    }
+  ]
+}
