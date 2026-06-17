@@ -82,7 +82,7 @@
     <div class="board" id="board"></div>
     <div class="legend">
       <span><span style="color:var(--ok)">✅</span> Resultado (G/E/P) = 1 pt</span>
-      <span><span style="color:var(--doble)">✅✅</span> Marcador exacto = 3 pts</span>
+      <span><span style="color:var(--doble)">✅✅</span> Marcador exacto = 2 pts</span>
       <span><span style="color:var(--tache)">❌</span> No acert&oacute;</span>
     </div>
     <div class="section-title">📋 Partidos jugados <small id="playedCount"></small></div>
@@ -133,7 +133,7 @@ function evalPred(pred,real){ const pr=parse(real); if(!pr)return -1; const pp=p
 function scores(){ const t=PLAYERS.map(()=>({pts:0,gen:0,ex:0}));
   MATCHES.forEach((m,i)=>{ const r=REAL[i]; if(!parse(r))return;
     m.preds.forEach((pred,pi)=>{ const e=evalPred(pred,r);
-      if(e===1){t[pi].pts++;t[pi].gen++;} else if(e===2){t[pi].pts+=3;t[pi].ex++;t[pi].gen++;} }); }); return t; }
+      if(e===1){t[pi].pts++;t[pi].gen++;} else if(e===2){t[pi].pts+=2;t[pi].ex++;t[pi].gen++;} }); }); return t; }
 
 function renderBoard(){ const tt=scores();
   const rk=PLAYERS.map((nm,i)=>({nm,...tt[i]})).sort((a,b)=>b.pts-a.pts||b.ex-a.ex);
