@@ -1,5 +1,5 @@
 {
-  "generado": "2026-06-16T00:00:00.000Z",
+  "generado": "2026-06-17T00:00:00.000Z",
   "resultados": [
     {
       "n": 1,
@@ -77,43 +77,43 @@
       "n": 13,
       "h": "España",
       "a": "Cabo Verde",
-      "real": null
+      "real": "0-0"
     },
     {
       "n": 14,
       "h": "Bélgica",
       "a": "Egipto",
-      "real": null
+      "real": "1-1"
     },
     {
       "n": 15,
       "h": "Arabia Saudita",
       "a": "Uruguay",
-      "real": null
+      "real": "1-1"
     },
     {
       "n": 16,
       "h": "Irán",
       "a": "Nueva Zelanda",
-      "real": null
+      "real": "2-2"
     },
     {
       "n": 17,
       "h": "Francia",
       "a": "Senegal",
-      "real": null
+      "real": "3-1"
     },
     {
       "n": 18,
       "h": "Irak",
       "a": "Noruega",
-      "real": null
+      "real": "1-4"
     },
     {
       "n": 19,
       "h": "Argentina",
       "a": "Argelia",
-      "real": null
+      "real": "3-0"
     },
     {
       "n": 20,
