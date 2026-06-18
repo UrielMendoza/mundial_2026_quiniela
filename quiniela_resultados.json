@@ -1,5 +1,5 @@
 {
-  "generado": "2026-06-17T00:00:00.000Z",
+  "generado": "2026-06-18T00:00:00.000Z",
   "resultados": [
     {
       "n": 1,
@@ -147,7 +147,7 @@
     },
     {
       "n": 25,
-      "h": "República de Chequia",
+      "h": "Chequia",
       "a": "Sudáfrica",
       "real": null
     },
@@ -155,6 +155,12 @@
       "n": 26,
       "h": "Suiza",
       "a": "Bosnia y Herzegovina",
+      "real": null
+    },
+    {
+      "n": 27,
+      "h": "Canadá",
+      "a": "Catar",
       "real": null
     },
     {
@@ -255,8 +261,8 @@
     },
     {
       "n": 44,
-      "h": "Argelia",
-      "a": "Jordania",
+      "h": "Jordania",
+      "a": "Argelia",
       "real": null
     },
     {
@@ -267,8 +273,8 @@
     },
     {
       "n": 46,
-      "h": "RD del Congo",
-      "a": "Colombia",
+      "h": "Colombia",
+      "a": "RD del Congo",
       "real": null
     },
     {
@@ -279,140 +285,152 @@
     },
     {
       "n": 48,
-      "h": "Croacia",
-      "a": "Panamá",
+      "h": "Panamá",
+      "a": "Croacia",
       "real": null
     },
     {
-      "n": 50,
-      "h": "Chequia",
-      "a": "México",
-      "real": null
-    },
-    {
-      "n": 51,
-      "h": "Sudáfrica",
-      "a": "Corea del Sur",
-      "real": null
-    },
-    {
-      "n": 53,
+      "n": 49,
       "h": "Suiza",
       "a": "Canadá",
       "real": null
     },
     {
-      "n": 54,
-      "h": "Catar",
-      "a": "Bosnia y Herzegovina",
+      "n": 50,
+      "h": "Bosnia y Herzegovina",
+      "a": "Catar",
       "real": null
     },
     {
-      "n": 55,
-      "h": "Marruecos",
-      "a": "Haití",
-      "real": null
-    },
-    {
-      "n": 56,
+      "n": 51,
       "h": "Escocia",
       "a": "Brasil",
       "real": null
     },
     {
-      "n": 57,
-      "h": "Irán",
-      "a": "Egipto",
+      "n": 52,
+      "h": "Marruecos",
+      "a": "Haití",
       "real": null
     },
     {
-      "n": 58,
-      "h": "Nueva Zelanda",
-      "a": "Bélgica",
+      "n": 53,
+      "h": "Chequia",
+      "a": "México",
       "real": null
     },
     {
-      "n": 59,
-      "h": "Paraguay",
-      "a": "Australia",
+      "n": 54,
+      "h": "Sudáfrica",
+      "a": "Corea del Sur",
       "real": null
     },
     {
-      "n": 60,
-      "h": "Turquía",
-      "a": "Estados Unidos",
-      "real": null
-    },
-    {
-      "n": 61,
-      "h": "Ecuador",
-      "a": "Alemania",
-      "real": null
-    },
-    {
-      "n": 62,
+      "n": 55,
       "h": "Curazao",
       "a": "Costa de Marfil",
       "real": null
     },
     {
-      "n": 63,
-      "h": "Túnez",
-      "a": "Países Bajos",
+      "n": 56,
+      "h": "Ecuador",
+      "a": "Alemania",
       "real": null
     },
     {
-      "n": 64,
+      "n": 57,
       "h": "Japón",
       "a": "Suecia",
       "real": null
     },
     {
-      "n": 65,
-      "h": "Cabo Verde",
-      "a": "Arabia Saudita",
+      "n": 58,
+      "h": "Túnez",
+      "a": "Países Bajos",
       "real": null
     },
     {
-      "n": 66,
-      "h": "España",
-      "a": "Uruguay",
+      "n": 59,
+      "h": "Turquía",
+      "a": "Estados Unidos",
       "real": null
     },
     {
-      "n": 67,
-      "h": "Senegal",
-      "a": "Irak",
+      "n": 60,
+      "h": "Paraguay",
+      "a": "Australia",
       "real": null
     },
     {
-      "n": 68,
+      "n": 61,
       "h": "Noruega",
       "a": "Francia",
       "real": null
     },
     {
+      "n": 62,
+      "h": "Senegal",
+      "a": "Irak",
+      "real": null
+    },
+    {
+      "n": 63,
+      "h": "Cabo Verde",
+      "a": "Arabia Saudita",
+      "real": null
+    },
+    {
+      "n": 64,
+      "h": "Uruguay",
+      "a": "España",
+      "real": null
+    },
+    {
+      "n": 65,
+      "h": "Egipto",
+      "a": "Irán",
+      "real": null
+    },
+    {
+      "n": 66,
+      "h": "Nueva Zelanda",
+      "a": "Bélgica",
+      "real": null
+    },
+    {
+      "n": 67,
+      "h": "Panamá",
+      "a": "Inglaterra",
+      "real": null
+    },
+    {
+      "n": 68,
+      "h": "Croacia",
+      "a": "Ghana",
+      "real": null
+    },
+    {
       "n": 69,
-      "h": "Jordania",
-      "a": "Argentina",
+      "h": "Colombia",
+      "a": "Portugal",
       "real": null
     },
     {
       "n": 70,
-      "h": "Austria",
-      "a": "Argelia",
-      "real": null
-    },
-    {
-      "n": 71,
       "h": "RD del Congo",
       "a": "Uzbekistán",
       "real": null
     },
     {
+      "n": 71,
+      "h": "Argelia",
+      "a": "Austria",
+      "real": null
+    },
+    {
       "n": 72,
-      "h": "Portugal",
-      "a": "Colombia",
+      "h": "Jordania",
+      "a": "Argentina",
       "real": null
     }
   ]
