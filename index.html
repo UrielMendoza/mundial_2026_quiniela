@@ -211,11 +211,13 @@ function renderStats(){
   const efic=PLAYERS.map((nm,i)=>{ const g=tt[i].gen, tot=played.filter(j=>parse(MATCHES[j].preds[i])).length;
     return {nm, pct: tot? Math.round(g*100/tot):0, g, tot}; }).sort((a,b)=>b.pct-a.pct);
 
-  // Partido más acertado y más fallado
+  // Partidos más acertados y más fallados (todos los que empaten)
   const perMatch=played.map(i=>{ let ok=0; MATCHES[i].preds.forEach(pr=>{ if(evalPred(pr,REAL[i])>=1)ok++; });
     return {i, ok, m:MATCHES[i]}; });
-  const maxOk=perMatch.slice().sort((a,b)=>b.ok-a.ok)[0];
-  const minOk=perMatch.slice().sort((a,b)=>a.ok-b.ok)[0];
+  const maxN=Math.max(...perMatch.map(x=>x.ok));
+  const minN=Math.min(...perMatch.map(x=>x.ok));
+  const masAcertados=perMatch.filter(x=>x.ok===maxN);
+  const masFallados=perMatch.filter(x=>x.ok===minN);
 
   const cards=[
     {h:"Líder actual", v:lider.nm, s:lider.pts+" pts &middot; "+lider.ex+" exactos"},
@@ -237,11 +239,13 @@ function renderStats(){
     PLAYERS.map((nm,i)=>({nm,ex:tt[i].ex})).sort((a,b)=>b.ex-a.ex).map(e=>
     '<div class="statrow"><span class="sn">'+e.nm+'</span><span>'+e.ex+' exactos</span></div>').join("")+'</div>';
 
+  const matchListHtml=(arr)=>arr.sort((a,b)=>a.m.n-b.m.n).map(x=>
+    '<div class="statrow"><span class="sn">'+x.m.h+' vs '+x.m.a+'</span><span>'+REAL[x.i]+'</span></div>').join("");
   const partidosHtml='<div class="statgrid">'+
-    '<div class="statcard"><div class="sh">Partido más acertado</div><div class="ss" style="font-weight:700;color:#fff;margin-top:2px;">'+
-      maxOk.m.h+' vs '+maxOk.m.a+' ('+REAL[maxOk.i]+')</div><div class="ss">'+maxOk.ok+' de '+PLAYERS.length+' acertaron</div></div>'+
-    '<div class="statcard"><div class="sh">Partido más fallado</div><div class="ss" style="font-weight:700;color:#fff;margin-top:2px;">'+
-      minOk.m.h+' vs '+minOk.m.a+' ('+REAL[minOk.i]+')</div><div class="ss">solo '+minOk.ok+' de '+PLAYERS.length+' acertaron</div></div>'+
+    '<div class="statcard"><div class="sh">Partidos más acertados ('+maxN+' de '+PLAYERS.length+')</div>'+
+      matchListHtml(masAcertados)+'</div>'+
+    '<div class="statcard"><div class="sh">Partidos más fallados ('+minN+' de '+PLAYERS.length+')</div>'+
+      matchListHtml(masFallados)+'</div>'+
     '</div>';
 
   c.innerHTML=cardsHtml+eficHtml+exHtml+partidosHtml;
