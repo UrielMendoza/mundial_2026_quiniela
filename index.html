@@ -62,6 +62,16 @@
   .dayhead .dcount{font-size:.72rem;color:#cdd5f3;font-weight:600;background:rgba(0,0,0,.25);padding:3px 10px;border-radius:20px;}
   footer{text-align:center;margin-top:30px;color:#6b75a8;font-size:.78rem;}
   .hidden{display:none;}.empty{text-align:center;color:#7b86b8;padding:30px;font-size:.9rem;}
+  .statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:18px;}
+  .statcard{background:linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px 16px;}
+  .statcard .sh{font-size:.78rem;color:#9aa3d4;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:700;}
+  .statcard .sv{font-size:1.7rem;font-weight:900;line-height:1.1;background:linear-gradient(90deg,var(--verde),var(--azul));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .statcard .ss{font-size:.78rem;color:#aeb6e0;margin-top:4px;}
+  .statrow{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:.9rem;}
+  .statrow:last-child{border-bottom:none;}
+  .statrow .sn{font-weight:700;}
+  .bar{height:8px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:5px;}
+  .bar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--verde),var(--azul));}
 </style>
 </head>
 <body>
@@ -75,6 +85,7 @@
   <div class="tabs">
     <div class="tab active" data-tab="tabla" onclick="showTab('tabla')">🏆 Marcador</div>
     <div class="tab" data-tab="partidos" onclick="showTab('partidos')">⚽ Pr&oacute;ximos partidos</div>
+    <div class="tab" data-tab="stats" onclick="showTab('stats')">📊 Estad&iacute;sticas</div>
   </div>
   <div id="status"></div>
 
@@ -93,6 +104,11 @@
     <div class="section-title">⏭️ Pr&oacute;ximos partidos <small>(orden oficial)</small></div>
     <div class="legend" style="margin-bottom:10px;"><span>Toca un partido para ver los pron&oacute;sticos de cada quien</span></div>
     <div id="upcomingList"></div>
+  </div>
+
+  <div id="stats" class="hidden">
+    <div class="section-title">📊 Estad&iacute;sticas <small>(partidos jugados)</small></div>
+    <div id="statsList"></div>
   </div>
   <footer>Quiniela familiar &middot; resultados actualizados desde el repositorio &middot; ⚽ 2026</footer>
 </div>
@@ -159,7 +175,8 @@ function renderPlayed(){
 }
 
 function renderUpcoming(){
-  const idxs=MATCHES.map((_,i)=>i).filter(i=>!parse(REAL[i])).sort((a,b)=>MATCHES[a].n-MATCHES[b].n);
+  const idxs=MATCHES.map((_,i)=>i).filter(i=>!parse(REAL[i]))
+    .sort((a,b)=>(MATCHES[a].date||"").localeCompare(MATCHES[b].date||"")||MATCHES[a].n-MATCHES[b].n);
   const c=document.getElementById("upcomingList");
   if(!idxs.length){ c.innerHTML='<div class="empty">🎉 Todos los partidos tienen resultado.</div>'; return; }
   let lastDay="";
@@ -173,13 +190,72 @@ function renderUpcoming(){
   reopen();
 }
 
+function renderStats(){
+  const c=document.getElementById("statsList");
+  const played=MATCHES.map((_,i)=>i).filter(i=>parse(REAL[i]));
+  if(!played.length){ c.innerHTML='<div class="empty">A&uacute;n no hay resultados para calcular estad&iacute;sticas.</div>'; return; }
+
+  const tt=scores();
+  // Líder, total de aciertos, exactos
+  const rk=PLAYERS.map((nm,i)=>({nm,...tt[i]})).sort((a,b)=>b.pts-a.pts||b.ex-a.ex);
+  const lider=rk[0];
+  const totalPts=tt.reduce((s,t)=>s+t.pts,0);
+  const totalEx=tt.reduce((s,t)=>s+t.ex,0);
+
+  // Goles del torneo (partidos jugados)
+  let goles=0, empates=0, golizas=0;
+  played.forEach(i=>{ const p=parse(REAL[i]); goles+=p[0]+p[1];
+    if(p[0]===p[1])empates++; if(Math.abs(p[0]-p[1])>=3)golizas++; });
+
+  // Mejor jugador por % de acierto
+  const efic=PLAYERS.map((nm,i)=>{ const g=tt[i].gen, tot=played.filter(j=>parse(MATCHES[j].preds[i])).length;
+    return {nm, pct: tot? Math.round(g*100/tot):0, g, tot}; }).sort((a,b)=>b.pct-a.pct);
+
+  // Partido más acertado y más fallado
+  const perMatch=played.map(i=>{ let ok=0; MATCHES[i].preds.forEach(pr=>{ if(evalPred(pr,REAL[i])>=1)ok++; });
+    return {i, ok, m:MATCHES[i]}; });
+  const maxOk=perMatch.slice().sort((a,b)=>b.ok-a.ok)[0];
+  const minOk=perMatch.slice().sort((a,b)=>a.ok-b.ok)[0];
+
+  const cards=[
+    {h:"Líder actual", v:lider.nm, s:lider.pts+" pts &middot; "+lider.ex+" exactos"},
+    {h:"Partidos jugados", v:played.length, s:"de "+MATCHES.length+" totales"},
+    {h:"Goles anotados", v:goles, s:(goles/played.length).toFixed(1)+" por partido"},
+    {h:"Empates", v:empates, s:Math.round(empates*100/played.length)+"% de los partidos"},
+    {h:"Goleadas (3+ dif.)", v:golizas, s:"diferencia de 3 o más"},
+    {h:"Marcadores exactos", v:totalEx, s:"aciertos perfectos de todos"},
+  ];
+  const cardsHtml='<div class="statgrid">'+cards.map(x=>
+    '<div class="statcard"><div class="sh">'+x.h+'</div><div class="sv">'+x.v+'</div><div class="ss">'+x.s+'</div></div>').join("")+'</div>';
+
+  const maxPct=efic[0].pct||1;
+  const eficHtml='<div class="statcard" style="margin-bottom:14px;"><div class="sh">Efectividad (acierto resultado/marcador)</div>'+
+    efic.map(e=>'<div class="statrow"><span class="sn">'+e.nm+'</span><span>'+e.pct+'% &middot; '+e.g+'/'+e.tot+'</span></div>'+
+    '<div class="bar"><i style="width:'+(e.pct)+'%"></i></div>').join("")+'</div>';
+
+  const exHtml='<div class="statcard" style="margin-bottom:14px;"><div class="sh">Marcadores exactos por jugador</div>'+
+    PLAYERS.map((nm,i)=>({nm,ex:tt[i].ex})).sort((a,b)=>b.ex-a.ex).map(e=>
+    '<div class="statrow"><span class="sn">'+e.nm+'</span><span>'+e.ex+' exactos</span></div>').join("")+'</div>';
+
+  const partidosHtml='<div class="statgrid">'+
+    '<div class="statcard"><div class="sh">Partido más acertado</div><div class="ss" style="font-weight:700;color:#fff;margin-top:2px;">'+
+      maxOk.m.h+' vs '+maxOk.m.a+' ('+REAL[maxOk.i]+')</div><div class="ss">'+maxOk.ok+' de '+PLAYERS.length+' acertaron</div></div>'+
+    '<div class="statcard"><div class="sh">Partido más fallado</div><div class="ss" style="font-weight:700;color:#fff;margin-top:2px;">'+
+      minOk.m.h+' vs '+minOk.m.a+' ('+REAL[minOk.i]+')</div><div class="ss">solo '+minOk.ok+' de '+PLAYERS.length+' acertaron</div></div>'+
+    '</div>';
+
+  c.innerHTML=cardsHtml+eficHtml+exHtml+partidosHtml;
+}
+
 let openSet=new Set();
 function toggleMatch(i){ const b=document.getElementById("body-"+i); if(!b)return; b.classList.toggle("open"); b.classList.contains("open")?openSet.add(i):openSet.delete(i); }
 function reopen(){ openSet.forEach(i=>{const b=document.getElementById("body-"+i); if(b)b.classList.add("open");}); }
 
 function showTab(t){ document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.tab===t));
-  document.getElementById("tabla").classList.toggle("hidden",t!=="tabla"); document.getElementById("partidos").classList.toggle("hidden",t!=="partidos"); }
-function refresh(){ renderBoard(); renderPlayed(); renderUpcoming(); }
+  document.getElementById("tabla").classList.toggle("hidden",t!=="tabla");
+  document.getElementById("partidos").classList.toggle("hidden",t!=="partidos");
+  document.getElementById("stats").classList.toggle("hidden",t!=="stats"); }
+function refresh(){ renderBoard(); renderPlayed(); renderUpcoming(); renderStats(); }
 
 loadResults();
 </script>
