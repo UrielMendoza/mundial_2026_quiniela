@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quiniela Mundial 2026</title>
 <style>
-  :root{--azul:#2c4cff;--rojo:#e8112d;--verde:#0aa06e;--amarillo:#ffcc00;--ok:#1db954;--doble:#ffb300;--tache:#ff4d6d;}
+  :root{--azul:#2c4cff;--rojo:#e8112d;--verde:#0aa06e;--amarillo:#ffcc00;--ok:#1db954;--doble:#ffb300;--tache:#ff4d6d;--pen:#c084fc;}
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
     background:radial-gradient(circle at 12% 8%,rgba(232,17,45,.18),transparent 42%),radial-gradient(circle at 88% 6%,rgba(10,160,110,.18),transparent 42%),radial-gradient(circle at 50% 110%,rgba(44,76,255,.25),transparent 55%),linear-gradient(160deg,#0a1030,#10183f 60%,#0a1030);
@@ -22,6 +22,9 @@
   .tab:hover{background:rgba(255,255,255,.14);}
   .tab.active{background:linear-gradient(90deg,var(--azul),var(--verde));color:#fff;border-color:transparent;box-shadow:0 6px 18px rgba(44,76,255,.4);}
   #status{text-align:center;font-size:.8rem;color:#9aa3d4;margin-bottom:16px;min-height:16px;}
+  .phasebar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:16px;}
+  .phasebtn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:#aab4e0;padding:7px 16px;border-radius:20px;cursor:pointer;font-weight:600;font-size:.8rem;}
+  .phasebtn.active{background:linear-gradient(90deg,var(--rojo),var(--amarillo));color:#fff;border-color:transparent;}
   .board{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px;}
   .pcard{background:linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:16px 14px;text-align:center;position:relative;overflow:hidden;transition:.25s;}
   .pcard:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.3);}
@@ -32,12 +35,14 @@
   .pcard .pts{font-size:2.2rem;font-weight:900;background:linear-gradient(90deg,var(--verde),var(--azul));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;}
   .pcard .lbl{font-size:.7rem;color:#9aa3d4;text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
   .pcard .det{font-size:.72rem;color:#aeb6e0;margin-top:8px;border-top:1px solid rgba(255,255,255,.1);padding-top:6px;}
+  .pcard .sub2{font-size:.66rem;color:#8a95c9;margin-top:4px;}
   .legend{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin:0 0 18px;font-size:.82rem;color:#cdd5f3;}
   .legend span{display:flex;align-items:center;gap:6px;}
   .section-title{font-size:1.15rem;font-weight:800;margin:24px 0 12px;display:flex;align-items:center;gap:8px;}
   .section-title small{font-size:.75rem;font-weight:600;color:#8a95c9;}
   .match{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:16px;margin-bottom:14px;overflow:hidden;}
   .match.played{border-color:rgba(29,185,84,.35);}
+  .match.ko{border-color:rgba(192,132,252,.3);}
   .mhead{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;cursor:pointer;flex-wrap:wrap;}
   .mteams{font-weight:700;font-size:1rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
   .mteams .num{font-size:.7rem;color:#7b86b8;font-weight:700;background:rgba(255,255,255,.06);padding:2px 7px;border-radius:6px;}
@@ -46,6 +51,7 @@
   .mreal{display:flex;align-items:center;gap:8px;font-weight:800;font-size:1rem;}
   .scorebox{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:4px 12px;min-width:60px;text-align:center;letter-spacing:2px;}
   .scorebox.done{background:linear-gradient(90deg,var(--verde),var(--azul));border-color:transparent;}
+  .penbadge{font-size:.68rem;color:var(--pen);font-weight:700;}
   .pending{color:#7b86b8;font-size:.78rem;font-weight:600;}
   .predchips{display:flex;flex-wrap:wrap;gap:7px;padding:2px 4px 10px;}
   .chip{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:5px 11px;font-size:.82rem;}
@@ -53,15 +59,16 @@
   .chip.ok{border-color:rgba(29,185,84,.5);}
   .chip.exact{border-color:var(--doble);background:rgba(255,179,0,.12);}
   .chip.fail{border-color:rgba(255,77,109,.4);}
+  .chip .pen{color:var(--pen);font-size:.7rem;font-weight:700;}
   .mbody{display:none;padding:0 16px 14px;}.mbody.open{display:block;}
   .predrow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:9px 12px;border-radius:10px;margin-top:7px;background:rgba(255,255,255,.04);}
   .predrow .who{font-weight:700;}.predrow .pscore{font-weight:700;color:#cdd5f3;letter-spacing:1px;}
+  .predrow .pscore .pen{color:var(--pen);font-size:.72rem;margin-left:5px;}
+  .nopred{text-align:center;color:#7b86b8;font-size:.85rem;font-style:italic;padding:10px;background:rgba(255,255,255,.03);border-radius:8px;margin-top:7px;}
   .dayhead{display:flex;align-items:center;justify-content:space-between;margin:22px 0 10px;padding:8px 14px;border-radius:12px;
     background:linear-gradient(90deg,rgba(44,76,255,.28),rgba(10,160,110,.18));border:1px solid rgba(255,255,255,.12);}
   .dayhead .dd{font-weight:800;font-size:1rem;letter-spacing:.5px;}
   .dayhead .dcount{font-size:.72rem;color:#cdd5f3;font-weight:600;background:rgba(0,0,0,.25);padding:3px 10px;border-radius:20px;}
-  footer{text-align:center;margin-top:30px;color:#6b75a8;font-size:.78rem;}
-  .hidden{display:none;}.empty{text-align:center;color:#7b86b8;padding:30px;font-size:.9rem;}
   .statgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:18px;}
   .statcard{background:linear-gradient(160deg,rgba(255,255,255,.10),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px 16px;}
   .statcard .sh{font-size:.78rem;color:#9aa3d4;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:700;}
@@ -72,6 +79,8 @@
   .statrow .sn{font-weight:700;}
   .bar{height:8px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:5px;}
   .bar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--verde),var(--azul));}
+  footer{text-align:center;margin-top:30px;color:#6b75a8;font-size:.78rem;}
+  .hidden{display:none;}.empty{text-align:center;color:#7b86b8;padding:30px;font-size:.9rem;}
 </style>
 </head>
 <body>
@@ -92,10 +101,12 @@
   <div id="tabla">
     <div class="board" id="board"></div>
     <div class="legend">
-      <span><span style="color:var(--ok)">✅</span> Resultado (G/E/P) = 1 pt</span>
+      <span><span style="color:var(--ok)">✅</span> Resultado / qui&eacute;n avanza = 1 pt</span>
       <span><span style="color:var(--doble)">✅✅</span> Marcador exacto = 2 pts</span>
       <span><span style="color:var(--tache)">❌</span> No acert&oacute;</span>
+      <span><span style="color:var(--pen)">(P)</span> Penales</span>
     </div>
+    <div class="phasebar" id="phasebarPlayed"></div>
     <div class="section-title">📋 Partidos jugados <small id="playedCount"></small></div>
     <div id="playedList"></div>
   </div>
@@ -105,7 +116,6 @@
     <div class="legend" style="margin-bottom:10px;"><span>Toca un partido para ver los pron&oacute;sticos de cada quien</span></div>
     <div id="upcomingList"></div>
   </div>
-
   <div id="stats" class="hidden">
     <div class="section-title">📊 Estad&iacute;sticas <small>(partidos jugados)</small></div>
     <div id="statsList"></div>
@@ -114,153 +124,167 @@
 </div>
 <script>
 const PLAYERS=["Ga\u00ebl","Gilles","Elisa","Jacob","Uriel"];
-const MATCHES=[{"n": 1, "date": "2026-06-11T18:00:00", "fechaTxt": "11 Jun", "h": "México", "a": "Sudáfrica", "preds": ["3-1", "2-1", "1-0", "3-1", "2-0"]}, {"n": 2, "date": "2026-06-11T18:00:00", "fechaTxt": "11 Jun", "h": "Corea del Sur", "a": "Chequia", "preds": ["1-1", "2-1", "2-0", "2-0", "0-1"]}, {"n": 3, "date": "2026-06-12T18:00:00", "fechaTxt": "12 Jun", "h": "Canadá", "a": "Bosnia y Herzegovina", "preds": ["1-0", "1-0", "0-0", "1-0", "1-3"]}, {"n": 4, "date": "2026-06-12T18:00:00", "fechaTxt": "12 Jun", "h": "Estados Unidos", "a": "Paraguay", "preds": ["0-1", "3-2", "0-1", "1-1", "1-2"]}, {"n": 5, "date": "2026-06-13T18:00:00", "fechaTxt": "13 Jun", "h": "Catar", "a": "Suiza", "preds": ["0-3", "1-3", "0-2", "0-3", "0-0"]}, {"n": 6, "date": "2026-06-13T18:00:00", "fechaTxt": "13 Jun", "h": "Brasil", "a": "Marruecos", "preds": ["2-2", "2-2", "2-3", "2-2", "1-2"]}, {"n": 7, "date": "2026-06-13T18:00:00", "fechaTxt": "13 Jun", "h": "Haití", "a": "Escocia", "preds": ["1-4", "0-2", "2-1", "0-3", "0-2"]}, {"n": 8, "date": "2026-06-13T18:00:00", "fechaTxt": "13 Jun", "h": "Australia", "a": "Turquía", "preds": ["1-3", "0-1", "1-2", "1-2", "0-2"]}, {"n": 9, "date": "2026-06-14T18:00:00", "fechaTxt": "14 Jun", "h": "Alemania", "a": "Curazao", "preds": ["5-1", "3-0", "4-0", "2-1", "4-0"]}, {"n": 10, "date": "2026-06-14T18:00:00", "fechaTxt": "14 Jun", "h": "Países Bajos", "a": "Japón", "preds": ["1-2", "1-1", "3-1", "2-2", "2-0"]}, {"n": 11, "date": "2026-06-14T18:00:00", "fechaTxt": "14 Jun", "h": "Costa de Marfil", "a": "Ecuador", "preds": ["1-1", "0-0", "0-1", "1-1", "2-1"]}, {"n": 12, "date": "2026-06-14T18:00:00", "fechaTxt": "14 Jun", "h": "Suecia", "a": "Túnez", "preds": ["2-0", "1-2", "0-2", "3-1", "0-0"]}, {"n": 13, "date": "2026-06-15T18:00:00", "fechaTxt": "15 Jun", "h": "España", "a": "Cabo Verde", "preds": ["5-0", "7-0", "3-0", "5-0", "3-0"]}, {"n": 14, "date": "2026-06-15T18:00:00", "fechaTxt": "15 Jun", "h": "Bélgica", "a": "Egipto", "preds": ["3-2", "4-1", "1-0", "2-1", "1-1"]}, {"n": 15, "date": "2026-06-15T18:00:00", "fechaTxt": "15 Jun", "h": "Arabia Saudita", "a": "Uruguay", "preds": ["1-2", "0-1", "0-1", "2-2", "0-1"]}, {"n": 16, "date": "2026-06-15T18:00:00", "fechaTxt": "15 Jun", "h": "Irán", "a": "Nueva Zelanda", "preds": ["1-0", "2-1", "2-1", "2-1", "0-0"]}, {"n": 17, "date": "2026-06-16T18:00:00", "fechaTxt": "16 Jun", "h": "Francia", "a": "Senegal", "preds": ["3-1", "1-1", "2-0", "1-1", "0-1"]}, {"n": 18, "date": "2026-06-16T18:00:00", "fechaTxt": "16 Jun", "h": "Irak", "a": "Noruega", "preds": ["0-3", "0-3", "0-2", "1-3", "0-2"]}, {"n": 19, "date": "2026-06-16T18:00:00", "fechaTxt": "16 Jun", "h": "Argentina", "a": "Argelia", "preds": ["3-1", "1-1", "2-0", "2-1", "3-0"]}, {"n": 20, "date": "2026-06-16T18:00:00", "fechaTxt": "16 Jun", "h": "Austria", "a": "Jordania", "preds": ["2-0", "3-1", "1-0", "0-0", "2-0"]}, {"n": 21, "date": "2026-06-17T18:00:00", "fechaTxt": "17 Jun", "h": "Portugal", "a": "RD del Congo", "preds": ["5-1", "4-1", "3-1", "2-0", "1-0"]}, {"n": 22, "date": "2026-06-17T18:00:00", "fechaTxt": "17 Jun", "h": "Inglaterra", "a": "Croacia", "preds": ["2-1", "1-0", "1-2", "2-2", "2-1"]}, {"n": 23, "date": "2026-06-17T18:00:00", "fechaTxt": "17 Jun", "h": "Ghana", "a": "Panamá", "preds": ["1-0", "4-0", "3-1", "1-2", "0-1"]}, {"n": 24, "date": "2026-06-17T18:00:00", "fechaTxt": "17 Jun", "h": "Uzbekistán", "a": "Colombia", "preds": ["0-3", "0-0", "0-2", "0-4", "0-0"]}, {"n": 25, "date": "2026-06-18T18:00:00", "fechaTxt": "18 Jun", "h": "Chequia", "a": "Sudáfrica", "preds": ["2-0", "2-2", "0-1", "2-2", "2-1"]}, {"n": 26, "date": "2026-06-18T18:00:00", "fechaTxt": "18 Jun", "h": "Suiza", "a": "Bosnia y Herzegovina", "preds": ["3-1", "1-0", "1-2", "2-2", "1-2"]}, {"n": 27, "date": "2026-06-18T18:00:00", "fechaTxt": "18 Jun", "h": "Canadá", "a": "Catar", "preds": ["", "", "", "", ""]}, {"n": 28, "date": "2026-06-18T18:00:00", "fechaTxt": "18 Jun", "h": "México", "a": "Corea del Sur", "preds": ["2-1", "1-1", "2-1", "2-1", "0-0"]}, {"n": 29, "date": "2026-06-19T18:00:00", "fechaTxt": "19 Jun", "h": "Estados Unidos", "a": "Australia", "preds": ["1-1", "2-0", "1-0", "3-2", "0-2"]}, {"n": 30, "date": "2026-06-19T18:00:00", "fechaTxt": "19 Jun", "h": "Escocia", "a": "Marruecos", "preds": ["1-2", "2-2", "1-1", "1-2", "0-0"]}, {"n": 31, "date": "2026-06-19T18:00:00", "fechaTxt": "19 Jun", "h": "Brasil", "a": "Haití", "preds": ["5-0", "3-1", "3-0", "5-0", "2-0"]}, {"n": 32, "date": "2026-06-19T18:00:00", "fechaTxt": "19 Jun", "h": "Turquía", "a": "Paraguay", "preds": ["2-2", "5-1", "0-2", "0-0", "1-2"]}, {"n": 33, "date": "2026-06-20T18:00:00", "fechaTxt": "20 Jun", "h": "Países Bajos", "a": "Suecia", "preds": ["1-1", "1-0", "0-0", "2-1", "3-1"]}, {"n": 34, "date": "2026-06-20T18:00:00", "fechaTxt": "20 Jun", "h": "Alemania", "a": "Costa de Marfil", "preds": ["2-0", "2-2", "2-0", "3-1", "2-1"]}, {"n": 35, "date": "2026-06-20T18:00:00", "fechaTxt": "20 Jun", "h": "Ecuador", "a": "Curazao", "preds": ["3-0", "2-0", "2-1", "3-1", "2-0"]}, {"n": 36, "date": "2026-06-20T18:00:00", "fechaTxt": "20 Jun", "h": "Japón", "a": "Túnez", "preds": ["3-1", "1-1", "0-2", "3-1", "1-1"]}, {"n": 37, "date": "2026-06-21T18:00:00", "fechaTxt": "21 Jun", "h": "España", "a": "Arabia Saudita", "preds": ["2-0", "2-2", "2-1", "2-0", "2-0"]}, {"n": 38, "date": "2026-06-21T18:00:00", "fechaTxt": "21 Jun", "h": "Bélgica", "a": "Irán", "preds": ["2-0", "4-1", "3-0", "3-1", "1-1"]}, {"n": 39, "date": "2026-06-21T18:00:00", "fechaTxt": "21 Jun", "h": "Uruguay", "a": "Cabo Verde", "preds": ["3-0", "3-0", "2-0", "3-0", "2-0"]}, {"n": 40, "date": "2026-06-21T18:00:00", "fechaTxt": "21 Jun", "h": "Nueva Zelanda", "a": "Egipto", "preds": ["1-3", "1-3", "0-1", "1-1", "0-1"]}, {"n": 41, "date": "2026-06-22T18:00:00", "fechaTxt": "22 Jun", "h": "Francia", "a": "Irak", "preds": ["4-0", "5-0", "2-0", "2-0", "2-0"]}, {"n": 42, "date": "2026-06-22T18:00:00", "fechaTxt": "22 Jun", "h": "Noruega", "a": "Senegal", "preds": ["1-1", "0-2", "1-2", "1-1", "3-1"]}, {"n": 43, "date": "2026-06-22T18:00:00", "fechaTxt": "22 Jun", "h": "Argentina", "a": "Austria", "preds": ["1-1", "1-1", "2-1", "0-1", "0-0"]}, {"n": 44, "date": "2026-06-22T18:00:00", "fechaTxt": "22 Jun", "h": "Jordania", "a": "Argelia", "preds": ["0-4", "2-3", "0-2", "1-3", "0-2"]}, {"n": 45, "date": "2026-06-23T18:00:00", "fechaTxt": "23 Jun", "h": "Portugal", "a": "Uzbekistán", "preds": ["3-0", "1-0", "2-0", "2-1", "2-1"]}, {"n": 46, "date": "2026-06-23T18:00:00", "fechaTxt": "23 Jun", "h": "Colombia", "a": "RD del Congo", "preds": ["4-2", "6-1", "3-1", "2-0", "3-1"]}, {"n": 47, "date": "2026-06-23T18:00:00", "fechaTxt": "23 Jun", "h": "Inglaterra", "a": "Ghana", "preds": ["2-0", "2-1", "3-2", "2-1", "2-0"]}, {"n": 48, "date": "2026-06-23T18:00:00", "fechaTxt": "23 Jun", "h": "Panamá", "a": "Croacia", "preds": ["0-2", "0-1", "0-3", "1-1", "2-1"]}, {"n": 49, "date": "2026-06-24T18:00:00", "fechaTxt": "24 Jun", "h": "Suiza", "a": "Canadá", "preds": ["0-0", "0-0", "2-0", "1-1", "0-1"]}, {"n": 50, "date": "2026-06-24T18:00:00", "fechaTxt": "24 Jun", "h": "Bosnia y Herzegovina", "a": "Catar", "preds": ["4-3", "0-1", "2-1", "2-0", "3-0"]}, {"n": 51, "date": "2026-06-24T18:00:00", "fechaTxt": "24 Jun", "h": "Escocia", "a": "Brasil", "preds": ["1-0", "0-3", "1-3", "2-3", "1-0"]}, {"n": 52, "date": "2026-06-24T18:00:00", "fechaTxt": "24 Jun", "h": "Marruecos", "a": "Haití", "preds": ["4-0", "3-0", "3-0", "3-0", "2-0"]}, {"n": 53, "date": "2026-06-24T18:00:00", "fechaTxt": "24 Jun", "h": "Chequia", "a": "México", "preds": ["2-0", "1-1", "0-1", "1-1", "1-2"]}, {"n": 54, "date": "2026-06-24T18:00:00", "fechaTxt": "24 Jun", "h": "Sudáfrica", "a": "Corea del Sur", "preds": ["1-1", "1-1", "0-1", "3-3", "1-2"]}, {"n": 55, "date": "2026-06-25T18:00:00", "fechaTxt": "25 Jun", "h": "Curazao", "a": "Costa de Marfil", "preds": ["0-3", "1-4", "1-2", "1-2", "0-2"]}, {"n": 56, "date": "2026-06-25T18:00:00", "fechaTxt": "25 Jun", "h": "Ecuador", "a": "Alemania", "preds": ["0-0", "0-3", "1-2", "2-2", "1-2"]}, {"n": 57, "date": "2026-06-26T18:00:00", "fechaTxt": "26 Jun", "h": "Japón", "a": "Suecia", "preds": ["2-2", "3-0", "1-1", "2-0", "4-1"]}, {"n": 58, "date": "2026-06-26T18:00:00", "fechaTxt": "26 Jun", "h": "Túnez", "a": "Países Bajos", "preds": ["1-2", "0-3", "1-2", "0-4", "0-3"]}, {"n": 59, "date": "2026-06-25T18:00:00", "fechaTxt": "25 Jun", "h": "Turquía", "a": "Estados Unidos", "preds": ["1-1", "1-1", "0-0", "2-1", "1-1"]}, {"n": 60, "date": "2026-06-25T18:00:00", "fechaTxt": "25 Jun", "h": "Paraguay", "a": "Australia", "preds": ["2-1", "1-4", "2-0", "1-1", "0-0"]}, {"n": 61, "date": "2026-06-26T18:00:00", "fechaTxt": "26 Jun", "h": "Noruega", "a": "Francia", "preds": ["2-3", "1-1", "1-3", "1-3", "0-2"]}, {"n": 62, "date": "2026-06-26T18:00:00", "fechaTxt": "26 Jun", "h": "Senegal", "a": "Irak", "preds": ["2-0", "4-1", "2-0", "1-1", "2-0"]}, {"n": 63, "date": "2026-06-26T18:00:00", "fechaTxt": "26 Jun", "h": "Cabo Verde", "a": "Arabia Saudita", "preds": ["0-3", "2-1", "1-1", "1-2", "0-2"]}, {"n": 64, "date": "2026-06-26T18:00:00", "fechaTxt": "26 Jun", "h": "Uruguay", "a": "España", "preds": ["1-3", "0-3", "1-2", "1-1", "0-2"]}, {"n": 65, "date": "2026-06-25T18:00:00", "fechaTxt": "25 Jun", "h": "Egipto", "a": "Irán", "preds": ["1-1", "2-2", "1-0", "2-0", "1-0"]}, {"n": 66, "date": "2026-06-25T18:00:00", "fechaTxt": "25 Jun", "h": "Nueva Zelanda", "a": "Bélgica", "preds": ["0-4", "0-2", "1-3", "0-4", "1-3"]}, {"n": 67, "date": "2026-06-26T18:00:00", "fechaTxt": "26 Jun", "h": "Panamá", "a": "Inglaterra", "preds": ["0-4", "1-2", "1-3", "1-4", "0-3"]}, {"n": 68, "date": "2026-06-26T18:00:00", "fechaTxt": "26 Jun", "h": "Croacia", "a": "Ghana", "preds": ["2-2", "1-3", "3-0", "2-0", "1-1"]}, {"n": 69, "date": "2026-06-27T18:00:00", "fechaTxt": "27 Jun", "h": "Colombia", "a": "Portugal", "preds": ["2-3", "0-0", "0-2", "1-2", "0-0"]}, {"n": 70, "date": "2026-06-27T18:00:00", "fechaTxt": "27 Jun", "h": "RD del Congo", "a": "Uzbekistán", "preds": ["1-0", "1-2", "0-1", "1-0", "2-0"]}, {"n": 71, "date": "2026-06-27T18:00:00", "fechaTxt": "27 Jun", "h": "Argelia", "a": "Austria", "preds": ["2-1", "0-1", "0-2", "1-1", "1-0"]}, {"n": 72, "date": "2026-06-27T18:00:00", "fechaTxt": "27 Jun", "h": "Jordania", "a": "Argentina", "preds": ["0-4", "0-2", "1-3", "0-2", "0-3"]}];
+const MATCHES=[{"n": 1, "date": "2026-06-11T18:00:00", "fechaTxt": "11 Jun", "h": "México", "a": "Sudáfrica", "preds": ["3-1", "2-1", "1-0", "3-1", "2-0"]}, {"n": 2, "date": "2026-06-11T18:00:00", "fechaTxt": "11 Jun", "h": "Corea del Sur", "a": "Chequia", "preds": ["1-1", "2-1", "2-0", "2-0", "0-1"]}, {"n": 3, "date": "2026-06-12T18:00:00", "fechaTxt": "12 Jun", "h": "Canadá", "a": "Bosnia y Herzegovina", "preds": ["1-0", "1-0", "0-0", "1-0", "1-3"]}, {"n": 4, "date": "2026-06-12T18:00:00", "fechaTxt": "12 Jun", "h": "Estados Unidos", "a": "Paraguay", "preds": ["0-1", "3-2", "0-1", "1-1", "1-2"]}, {"n": 5, "date": "2026-06-13T18:00:00", "fechaTxt": "13 Jun", "h": "Catar", "a": "Suiza", "preds": ["0-3", "1-3", "0-2", "0-3", "0-0"]}, {"n": 6, "date": "2026-06-13T18:00:00", "fechaTxt": "13 Jun", "h": "Brasil", "a": "Marruecos", "preds": ["2-2", "2-2", "2-3", "2-2", "1-2"]}, {"n": 7, "date": "2026-06-13T18:00:00", "fechaTxt": "13 Jun", "h": "Haití", "a": "Escocia", "preds": ["1-4", "0-2", "2-1", "0-3", "0-2"]}, {"n": 8, "date": "2026-06-13T18:00:00", "fechaTxt": "13 Jun", "h": "Australia", "a": "Turquía", "preds": ["1-3", "0-1", "1-2", "1-2", "0-2"]}, {"n": 9, "date": "2026-06-14T18:00:00", "fechaTxt": "14 Jun", "h": "Alemania", "a": "Curazao", "preds": ["5-1", "3-0", "4-0", "2-1", "4-0"]}, {"n": 10, "date": "2026-06-14T18:00:00", "fechaTxt": "14 Jun", "h": "Países Bajos", "a": "Japón", "preds": ["1-2", "1-1", "3-1", "2-2", "2-0"]}, {"n": 11, "date": "2026-06-14T18:00:00", "fechaTxt": "14 Jun", "h": "Costa de Marfil", "a": "Ecuador", "preds": ["1-1", "0-0", "0-1", "1-1", "2-1"]}, {"n": 12, "date": "2026-06-14T18:00:00", "fechaTxt": "14 Jun", "h": "Suecia", "a": "Túnez", "preds": ["2-0", "1-2", "0-2", "3-1", "0-0"]}, {"n": 13, "date": "2026-06-15T18:00:00", "fechaTxt": "15 Jun", "h": "España", "a": "Cabo Verde", "preds": ["5-0", "7-0", "3-0", "5-0", "3-0"]}, {"n": 14, "date": "2026-06-15T18:00:00", "fechaTxt": "15 Jun", "h": "Bélgica", "a": "Egipto", "preds": ["3-2", "4-1", "1-0", "2-1", "1-1"]}, {"n": 15, "date": "2026-06-15T18:00:00", "fechaTxt": "15 Jun", "h": "Arabia Saudita", "a": "Uruguay", "preds": ["1-2", "0-1", "0-1", "2-2", "0-1"]}, {"n": 16, "date": "2026-06-15T18:00:00", "fechaTxt": "15 Jun", "h": "Irán", "a": "Nueva Zelanda", "preds": ["1-0", "2-1", "2-1", "2-1", "0-0"]}, {"n": 17, "date": "2026-06-16T18:00:00", "fechaTxt": "16 Jun", "h": "Francia", "a": "Senegal", "preds": ["3-1", "1-1", "2-0", "1-1", "0-1"]}, {"n": 18, "date": "2026-06-16T18:00:00", "fechaTxt": "16 Jun", "h": "Irak", "a": "Noruega", "preds": ["0-3", "0-3", "0-2", "1-3", "0-2"]}, {"n": 19, "date": "2026-06-16T18:00:00", "fechaTxt": "16 Jun", "h": "Argentina", "a": "Argelia", "preds": ["3-1", "1-1", "2-0", "2-1", "3-0"]}, {"n": 20, "date": "2026-06-16T18:00:00", "fechaTxt": "16 Jun", "h": "Austria", "a": "Jordania", "preds": ["2-0", "3-1", "1-0", "0-0", "2-0"]}, {"n": 21, "date": "2026-06-17T18:00:00", "fechaTxt": "17 Jun", "h": "Portugal", "a": "RD del Congo", "preds": ["5-1", "4-1", "3-1", "2-0", "1-0"]}, {"n": 22, "date": "2026-06-17T18:00:00", "fechaTxt": "17 Jun", "h": "Inglaterra", "a": "Croacia", "preds": ["2-1", "1-0", "1-2", "2-2", "2-1"]}, {"n": 23, "date": "2026-06-17T18:00:00", "fechaTxt": "17 Jun", "h": "Ghana", "a": "Panamá", "preds": ["1-0", "4-0", "3-1", "1-2", "0-1"]}, {"n": 24, "date": "2026-06-17T18:00:00", "fechaTxt": "17 Jun", "h": "Uzbekistán", "a": "Colombia", "preds": ["0-3", "0-0", "0-2", "0-4", "0-0"]}, {"n": 25, "date": "2026-06-18T18:00:00", "fechaTxt": "18 Jun", "h": "Chequia", "a": "Sudáfrica", "preds": ["2-0", "2-2", "0-1", "2-2", "2-1"]}, {"n": 26, "date": "2026-06-18T18:00:00", "fechaTxt": "18 Jun", "h": "Suiza", "a": "Bosnia y Herzegovina", "preds": ["3-1", "1-0", "1-2", "2-2", "1-2"]}, {"n": 27, "date": "2026-06-18T18:00:00", "fechaTxt": "18 Jun", "h": "Canadá", "a": "Catar", "preds": null}, {"n": 28, "date": "2026-06-18T18:00:00", "fechaTxt": "18 Jun", "h": "México", "a": "Corea del Sur", "preds": ["2-1", "1-1", "2-1", "2-1", "0-0"]}, {"n": 29, "date": "2026-06-19T18:00:00", "fechaTxt": "19 Jun", "h": "Estados Unidos", "a": "Australia", "preds": ["1-1", "2-0", "1-0", "3-2", "0-2"]}, {"n": 30, "date": "2026-06-19T18:00:00", "fechaTxt": "19 Jun", "h": "Escocia", "a": "Marruecos", "preds": ["1-2", "2-2", "1-1", "1-2", "0-0"]}, {"n": 31, "date": "2026-06-19T18:00:00", "fechaTxt": "19 Jun", "h": "Brasil", "a": "Haití", "preds": ["5-0", "3-1", "3-0", "5-0", "2-0"]}, {"n": 32, "date": "2026-06-19T18:00:00", "fechaTxt": "19 Jun", "h": "Turquía", "a": "Paraguay", "preds": ["2-2", "5-1", "0-2", "0-0", "1-2"]}, {"n": 33, "date": "2026-06-20T18:00:00", "fechaTxt": "20 Jun", "h": "Países Bajos", "a": "Suecia", "preds": ["1-1", "1-0", "0-0", "2-1", "3-1"]}, {"n": 34, "date": "2026-06-20T18:00:00", "fechaTxt": "20 Jun", "h": "Alemania", "a": "Costa de Marfil", "preds": ["2-0", "2-2", "2-0", "3-1", "2-1"]}, {"n": 35, "date": "2026-06-20T18:00:00", "fechaTxt": "20 Jun", "h": "Ecuador", "a": "Curazao", "preds": ["3-0", "2-0", "2-1", "3-1", "2-0"]}, {"n": 36, "date": "2026-06-20T18:00:00", "fechaTxt": "20 Jun", "h": "Japón", "a": "Túnez", "preds": ["3-1", "1-1", "0-2", "3-1", "1-1"]}, {"n": 37, "date": "2026-06-21T18:00:00", "fechaTxt": "21 Jun", "h": "España", "a": "Arabia Saudita", "preds": ["2-0", "2-2", "2-1", "2-0", "2-0"]}, {"n": 38, "date": "2026-06-21T18:00:00", "fechaTxt": "21 Jun", "h": "Bélgica", "a": "Irán", "preds": ["2-0", "4-1", "3-0", "3-1", "1-1"]}, {"n": 39, "date": "2026-06-21T18:00:00", "fechaTxt": "21 Jun", "h": "Uruguay", "a": "Cabo Verde", "preds": ["3-0", "3-0", "2-0", "3-0", "2-0"]}, {"n": 40, "date": "2026-06-21T18:00:00", "fechaTxt": "21 Jun", "h": "Nueva Zelanda", "a": "Egipto", "preds": ["1-3", "1-3", "0-1", "1-1", "0-1"]}, {"n": 41, "date": "2026-06-22T18:00:00", "fechaTxt": "22 Jun", "h": "Francia", "a": "Irak", "preds": ["4-0", "5-0", "2-0", "2-0", "2-0"]}, {"n": 42, "date": "2026-06-22T18:00:00", "fechaTxt": "22 Jun", "h": "Noruega", "a": "Senegal", "preds": ["1-1", "0-2", "1-2", "1-1", "3-1"]}, {"n": 43, "date": "2026-06-22T18:00:00", "fechaTxt": "22 Jun", "h": "Argentina", "a": "Austria", "preds": ["1-1", "1-1", "2-1", "0-1", "0-0"]}, {"n": 44, "date": "2026-06-22T18:00:00", "fechaTxt": "22 Jun", "h": "Jordania", "a": "Argelia", "preds": ["0-4", "2-3", "0-2", "1-3", "0-2"]}, {"n": 45, "date": "2026-06-23T18:00:00", "fechaTxt": "23 Jun", "h": "Portugal", "a": "Uzbekistán", "preds": ["3-0", "1-0", "2-0", "2-1", "2-1"]}, {"n": 46, "date": "2026-06-23T18:00:00", "fechaTxt": "23 Jun", "h": "Colombia", "a": "RD del Congo", "preds": ["4-2", "6-1", "3-1", "2-0", "3-1"]}, {"n": 47, "date": "2026-06-23T18:00:00", "fechaTxt": "23 Jun", "h": "Inglaterra", "a": "Ghana", "preds": ["2-0", "2-1", "3-2", "2-1", "2-0"]}, {"n": 48, "date": "2026-06-23T18:00:00", "fechaTxt": "23 Jun", "h": "Panamá", "a": "Croacia", "preds": ["0-2", "0-1", "0-3", "1-1", "2-1"]}, {"n": 49, "date": "2026-06-24T18:00:00", "fechaTxt": "24 Jun", "h": "Suiza", "a": "Canadá", "preds": ["0-0", "0-0", "2-0", "1-1", "0-1"]}, {"n": 50, "date": "2026-06-24T18:00:00", "fechaTxt": "24 Jun", "h": "Bosnia y Herzegovina", "a": "Catar", "preds": ["4-3", "0-1", "2-1", "2-0", "3-0"]}, {"n": 51, "date": "2026-06-24T18:00:00", "fechaTxt": "24 Jun", "h": "Escocia", "a": "Brasil", "preds": ["1-0", "0-3", "1-3", "2-3", "1-0"]}, {"n": 52, "date": "2026-06-24T18:00:00", "fechaTxt": "24 Jun", "h": "Marruecos", "a": "Haití", "preds": ["4-0", "3-0", "3-0", "3-0", "2-0"]}, {"n": 53, "date": "2026-06-24T18:00:00", "fechaTxt": "24 Jun", "h": "Chequia", "a": "México", "preds": ["2-0", "1-1", "0-1", "1-1", "1-2"]}, {"n": 54, "date": "2026-06-24T18:00:00", "fechaTxt": "24 Jun", "h": "Sudáfrica", "a": "Corea del Sur", "preds": ["1-1", "1-1", "0-1", "3-3", "1-2"]}, {"n": 55, "date": "2026-06-25T18:00:00", "fechaTxt": "25 Jun", "h": "Curazao", "a": "Costa de Marfil", "preds": ["0-3", "1-4", "1-2", "1-2", "0-2"]}, {"n": 56, "date": "2026-06-25T18:00:00", "fechaTxt": "25 Jun", "h": "Ecuador", "a": "Alemania", "preds": ["0-0", "0-3", "1-2", "2-2", "1-2"]}, {"n": 57, "date": "2026-06-26T18:00:00", "fechaTxt": "26 Jun", "h": "Japón", "a": "Suecia", "preds": ["2-2", "3-0", "1-1", "2-0", "4-1"]}, {"n": 58, "date": "2026-06-26T18:00:00", "fechaTxt": "26 Jun", "h": "Túnez", "a": "Países Bajos", "preds": ["1-2", "0-3", "1-2", "0-4", "0-3"]}, {"n": 59, "date": "2026-06-25T18:00:00", "fechaTxt": "25 Jun", "h": "Turquía", "a": "Estados Unidos", "preds": ["1-1", "1-1", "0-0", "2-1", "1-1"]}, {"n": 60, "date": "2026-06-25T18:00:00", "fechaTxt": "25 Jun", "h": "Paraguay", "a": "Australia", "preds": ["2-1", "1-4", "2-0", "1-1", "0-0"]}, {"n": 61, "date": "2026-06-26T18:00:00", "fechaTxt": "26 Jun", "h": "Noruega", "a": "Francia", "preds": ["2-3", "1-1", "1-3", "1-3", "0-2"]}, {"n": 62, "date": "2026-06-26T18:00:00", "fechaTxt": "26 Jun", "h": "Senegal", "a": "Irak", "preds": ["2-0", "4-1", "2-0", "1-1", "2-0"]}, {"n": 63, "date": "2026-06-26T18:00:00", "fechaTxt": "26 Jun", "h": "Cabo Verde", "a": "Arabia Saudita", "preds": ["0-3", "2-1", "1-1", "1-2", "0-2"]}, {"n": 64, "date": "2026-06-26T18:00:00", "fechaTxt": "26 Jun", "h": "Uruguay", "a": "España", "preds": ["1-3", "0-3", "1-2", "1-1", "0-2"]}, {"n": 65, "date": "2026-06-25T18:00:00", "fechaTxt": "25 Jun", "h": "Egipto", "a": "Irán", "preds": ["1-1", "2-2", "1-0", "2-0", "1-0"]}, {"n": 66, "date": "2026-06-25T18:00:00", "fechaTxt": "25 Jun", "h": "Nueva Zelanda", "a": "Bélgica", "preds": ["0-4", "0-2", "1-3", "0-4", "1-3"]}, {"n": 67, "date": "2026-06-26T18:00:00", "fechaTxt": "26 Jun", "h": "Panamá", "a": "Inglaterra", "preds": ["0-4", "1-2", "1-3", "1-4", "0-3"]}, {"n": 68, "date": "2026-06-26T18:00:00", "fechaTxt": "26 Jun", "h": "Croacia", "a": "Ghana", "preds": ["2-2", "1-3", "3-0", "2-0", "1-1"]}, {"n": 69, "date": "2026-06-27T18:00:00", "fechaTxt": "27 Jun", "h": "Colombia", "a": "Portugal", "preds": ["2-3", "0-0", "0-2", "1-2", "0-0"]}, {"n": 70, "date": "2026-06-27T18:00:00", "fechaTxt": "27 Jun", "h": "RD del Congo", "a": "Uzbekistán", "preds": ["1-0", "1-2", "0-1", "1-0", "2-0"]}, {"n": 71, "date": "2026-06-27T18:00:00", "fechaTxt": "27 Jun", "h": "Argelia", "a": "Austria", "preds": ["2-1", "0-1", "0-2", "1-1", "1-0"]}, {"n": 72, "date": "2026-06-27T18:00:00", "fechaTxt": "27 Jun", "h": "Jordania", "a": "Argentina", "preds": ["0-4", "0-2", "1-3", "0-2", "0-3"]}, {"n": 101, "date": "2026-06-28T18:00:00", "fechaTxt": "28 Jun", "ronda": "16vos", "h": "Sudáfrica", "a": "Canadá", "preds": [{"sc": "1-2", "pen": null}, {"sc": "1-3", "pen": null}, null, {"sc": "0-2", "pen": null}, {"sc": "2-1", "pen": null}]}, {"n": 102, "date": "2026-06-29T18:00:00", "fechaTxt": "29 Jun", "ronda": "16vos", "h": "Brasil", "a": "Japón", "preds": [{"sc": "3-1", "pen": null}, {"sc": "3-2", "pen": "Brasil"}, null, {"sc": "1-1", "pen": "Brasil"}, {"sc": "2-0", "pen": null}]}, {"n": 103, "date": "2026-06-29T18:00:00", "fechaTxt": "29 Jun", "ronda": "16vos", "h": "Alemania", "a": "Paraguay", "preds": [{"sc": "2-1", "pen": null}, {"sc": "4-1", "pen": null}, null, {"sc": "2-0", "pen": null}, {"sc": "0-0", "pen": "Paraguay"}]}, {"n": 104, "date": "2026-06-29T18:00:00", "fechaTxt": "29 Jun", "ronda": "16vos", "h": "Países Bajos", "a": "Marruecos", "preds": [{"sc": "2-2", "pen": "Países Bajos"}, {"sc": "1-1", "pen": "Países Bajos"}, null, {"sc": "3-2", "pen": null}, {"sc": "0-1", "pen": null}]}, {"n": 105, "date": "2026-06-30T18:00:00", "fechaTxt": "30 Jun", "ronda": "16vos", "h": "Costa de Marfil", "a": "Noruega", "preds": [{"sc": "1-3", "pen": null}, {"sc": "2-1", "pen": null}, null, {"sc": "1-2", "pen": null}, {"sc": "1-3", "pen": null}]}, {"n": 106, "date": "2026-06-30T18:00:00", "fechaTxt": "30 Jun", "ronda": "16vos", "h": "Francia", "a": "Suecia", "preds": [{"sc": "4-1", "pen": null}, {"sc": "3-1", "pen": null}, null, {"sc": "2-0", "pen": null}, {"sc": "3-1", "pen": null}]}, {"n": 107, "date": "2026-06-30T18:00:00", "fechaTxt": "30 Jun", "ronda": "16vos", "h": "México", "a": "Ecuador", "preds": [{"sc": "2-1", "pen": null}, {"sc": "2-1", "pen": null}, null, {"sc": "3-1", "pen": null}, {"sc": "2-1", "pen": null}]}, {"n": 108, "date": "2026-07-01T18:00:00", "fechaTxt": "1 Jul", "ronda": "16vos", "h": "Inglaterra", "a": "RD del Congo", "preds": [{"sc": "3-1", "pen": null}, {"sc": "2-0", "pen": null}, null, {"sc": "1-0", "pen": null}, {"sc": "2-0", "pen": null}]}, {"n": 109, "date": "2026-07-01T18:00:00", "fechaTxt": "1 Jul", "ronda": "16vos", "h": "Bélgica", "a": "Senegal", "preds": [{"sc": "1-1", "pen": "Bélgica"}, {"sc": "1-1", "pen": "Bélgica"}, null, {"sc": "1-1", "pen": "Bélgica"}, {"sc": "0-2", "pen": null}]}, {"n": 110, "date": "2026-07-01T18:00:00", "fechaTxt": "1 Jul", "ronda": "16vos", "h": "Estados Unidos", "a": "Bosnia y Herzegovina", "preds": [null, {"sc": "3-1", "pen": null}, null, {"sc": "2-0", "pen": null}, {"sc": "3-0", "pen": null}]}, {"n": 111, "date": "2026-07-02T18:00:00", "fechaTxt": "2 Jul", "ronda": "16vos", "h": "España", "a": "Austria", "preds": [null, {"sc": "3-0", "pen": null}, null, {"sc": "3-0", "pen": null}, {"sc": "2-0", "pen": null}]}, {"n": 112, "date": "2026-07-02T18:00:00", "fechaTxt": "2 Jul", "ronda": "16vos", "h": "Portugal", "a": "Croacia", "preds": [null, {"sc": "3-1", "pen": null}, null, {"sc": "3-1", "pen": null}, {"sc": "1-1", "pen": "Portugal"}]}, {"n": 113, "date": "2026-07-02T18:00:00", "fechaTxt": "2 Jul", "ronda": "16vos", "h": "Suiza", "a": "Argelia", "preds": [null, {"sc": "2-0", "pen": null}, null, {"sc": "1-1", "pen": "Suiza"}, {"sc": "2-1", "pen": null}]}, {"n": 114, "date": "2026-07-03T18:00:00", "fechaTxt": "3 Jul", "ronda": "16vos", "h": "Australia", "a": "Egipto", "preds": [null, {"sc": "1-2", "pen": null}, null, {"sc": "2-2", "pen": "Egipto"}, {"sc": "0-1", "pen": null}]}, {"n": 115, "date": "2026-07-03T18:00:00", "fechaTxt": "3 Jul", "ronda": "16vos", "h": "Argentina", "a": "Cabo Verde", "preds": [null, {"sc": "2-0", "pen": null}, null, {"sc": "2-1", "pen": null}, {"sc": "3-1", "pen": null}]}, {"n": 116, "date": "2026-07-03T18:00:00", "fechaTxt": "3 Jul", "ronda": "16vos", "h": "Colombia", "a": "Ghana", "preds": [null, {"sc": "1-1", "pen": "Colombia"}, null, {"sc": "3-1", "pen": null}, {"sc": "2-0", "pen": null}]}];
 
-// REAL se llena leyendo el JSON del repositorio (mismo origen -> sin CORS).
-let REAL={};
-
+let REAL={}; // idx -> {real, pen}
 async function loadResults(){
   const st=document.getElementById("status");
   try{
-    // cache-bust para que cada commit se vea sin recarga forzada
     const res=await fetch("quiniela_resultados.json?v="+Date.now(),{cache:"no-store"});
     if(!res.ok) throw new Error("HTTP "+res.status);
     const data=await res.json();
     const arr=data.resultados||data||[];
     REAL={};
-    arr.forEach(r=>{
-      const idx=MATCHES.findIndex(m=>m.n===r.n);
-      if(idx>=0 && r.real) REAL[idx]=r.real;
-    });
+    arr.forEach(r=>{ const idx=MATCHES.findIndex(m=>m.n===r.n);
+      if(idx>=0 && r.real) REAL[idx]={real:r.real, pen:r.pen||null}; });
     const n=Object.keys(REAL).length;
     st.textContent="Resultados cargados: "+n+" partido"+(n===1?"":"s")+" jugado"+(n===1?"":"s")+".";
     clearTimeout(loadResults._t); loadResults._t=setTimeout(()=>{st.textContent="";},3000);
   }catch(e){
-    st.innerHTML="⚠️ No se pudo leer <b>quiniela_resultados.json</b> ("+e.message+"). Verifica que el archivo est&eacute; en la misma carpeta que index.html.";
+    st.innerHTML="⚠️ No se pudo leer <b>quiniela_resultados.json</b> ("+e.message+").";
   }
   refresh();
 }
 
 function parse(s){ if(s==null||s==="")return null; const m=String(s).split("-").map(x=>parseInt(x.trim(),10)); if(m.length!==2||isNaN(m[0])||isNaN(m[1]))return null; return m; }
 function oc(s){ const p=parse(s); if(!p)return null; return p[0]>p[1]?1:(p[0]<p[1]?2:0); }
-function evalPred(pred,real){ const pr=parse(real); if(!pr)return -1; const pp=parse(pred); if(!pp)return 0;
-  if(pp[0]===pr[0]&&pp[1]===pr[1])return 2; if(oc(pred)===oc(real))return 1; return 0; }
+function isKO(m){ return m.n>=100; }
+function getReal(i){ return REAL[i]?REAL[i].real:null; }
 
-function scores(){ const t=PLAYERS.map(()=>({pts:0,gen:0,ex:0}));
-  MATCHES.forEach((m,i)=>{ const r=REAL[i]; if(!parse(r))return;
-    m.preds.forEach((pred,pi)=>{ const e=evalPred(pred,r);
+// quién avanza: ganador 90min, o si empate el de penales
+function whoAdvances(m, sc, pen){ const p=parse(sc); if(!p)return null;
+  if(p[0]>p[1]) return m.h; if(p[1]>p[0]) return m.a; return pen; }
+
+// Evaluación grupos: pred string "g-g"
+function evalGroup(pred,real){ const pr=parse(real); if(!pr)return -1; const pp=parse(pred); if(!pp)return 0;
+  if(pp[0]===pr[0]&&pp[1]===pr[1])return 2; if(oc(pred)===oc(real))return 1; return 0; }
+// Evaluación KO: pred {sc,pen}, real {real,pen}
+function evalKO(m,pred,realObj){ if(!realObj||!realObj.real)return -1; if(!pred||!pred.sc)return 0;
+  if(pred.sc===realObj.real) return 2; // marcador exacto
+  const aw_p=whoAdvances(m,pred.sc,pred.pen), aw_r=whoAdvances(m,realObj.real,realObj.pen);
+  if(aw_p&&aw_r&&aw_p===aw_r) return 1; return 0; }
+
+function evalAny(m,i,pi){ const ro=REAL[i]; if(!ro)return -1;
+  if(isKO(m)){ return evalKO(m, m.preds?m.preds[pi]:null, ro); }
+  else { return m.preds?evalGroup(m.preds[pi], ro.real):-1; } }
+
+function scores(filter){ const t=PLAYERS.map(()=>({pts:0,gen:0,ex:0}));
+  MATCHES.forEach((m,i)=>{ if(!REAL[i])return; if(filter&&!filter(m))return; if(!m.preds)return;
+    m.preds.forEach((pred,pi)=>{ const e=evalAny(m,i,pi);
       if(e===1){t[pi].pts++;t[pi].gen++;} else if(e===2){t[pi].pts+=2;t[pi].ex++;t[pi].gen++;} }); }); return t; }
 
-function renderBoard(){ const tt=scores();
-  const rk=PLAYERS.map((nm,i)=>({nm,...tt[i]})).sort((a,b)=>b.pts-a.pts||b.ex-a.ex);
+function renderBoard(){
+  const tt=scores();          // total
+  const tg=scores(m=>!isKO(m)); // grupos
+  const tk=scores(m=>isKO(m));  // ko
+  const rk=PLAYERS.map((nm,i)=>({nm,i,...tt[i]})).sort((a,b)=>b.pts-a.pts||b.ex-a.ex);
   const mx=rk.length?rk[0].pts:0;
   document.getElementById("board").innerHTML=rk.map((p,idx)=>{
     const ld=(p.pts===mx&&mx>0)?"lead":""; const cr=(p.pts===mx&&mx>0)?"👑 ":"";
-    return '<div class="pcard '+ld+'"><div class="rank">#'+(idx+1)+'</div><div class="nm">'+cr+p.nm+'</div><div class="pts">'+p.pts+'</div><div class="lbl">puntos</div><div class="det"><b>'+p.gen+' aciertos:</b><br>'+(p.gen-p.ex)+' <span style="color:var(--ok)">resultado</span> &middot; '+p.ex+' <span style="color:var(--doble)">marcador</span></div></div>';
+    return '<div class="pcard '+ld+'"><div class="rank">#'+(idx+1)+'</div><div class="nm">'+cr+p.nm+'</div><div class="pts">'+p.pts+'</div><div class="lbl">puntos</div><div class="det"><b>'+p.gen+' aciertos:</b><br>'+(p.gen-p.ex)+' resultado &middot; '+p.ex+' exacto</div><div class="sub2">Grupos: '+tg[p.i].pts+' &middot; Eliminat.: '+tk[p.i].pts+'</div></div>';
   }).join(""); }
 
 function icon(e){ return e===2?"✅✅":(e===1?"✅":(e===0?"❌":"")); }
 function cls(e){ return e===2?"exact":(e===1?"ok":(e===0?"fail":"")); }
-function dateLine(m){ return '<div class="mdate">'+(m.fechaTxt||"")+'</div>'; }
+function dateLine(m){ return '<div class="mdate">'+(m.fechaTxt||"")+(isKO(m)?' &middot; '+m.ronda:'')+'</div>'; }
+function fmtPredKO(p){ if(!p)return ""; return p.sc+(p.pen?' <span class="pen">(P '+p.pen+')</span>':''); }
+function fmtRealKO(ro){ return ro.real+(ro.pen?' <span class="penbadge">(P '+ro.pen+')</span>':''); }
 
+let curPhasePlayed="all";
 function renderPlayed(){
-  const idxs=MATCHES.map((_,i)=>i).filter(i=>parse(REAL[i])).sort((a,b)=>MATCHES[a].n-MATCHES[b].n);
+  // filtro de fase
+  const phases=[["all","Todos"],["grupos","Grupos"],["16vos","16vos"]];
+  document.getElementById("phasebarPlayed").innerHTML=phases.map(([k,l])=>
+    '<div class="phasebtn '+(curPhasePlayed===k?"active":"")+'" onclick="setPhasePlayed(\''+k+'\')">'+l+'</div>').join("");
+  let idxs=MATCHES.map((_,i)=>i).filter(i=>REAL[i]&&parse(getReal(i)));
+  if(curPhasePlayed==="grupos") idxs=idxs.filter(i=>!isKO(MATCHES[i]));
+  else if(curPhasePlayed==="16vos") idxs=idxs.filter(i=>isKO(MATCHES[i]));
+  idxs.sort((a,b)=>MATCHES[a].n-MATCHES[b].n);
   document.getElementById("playedCount").textContent=idxs.length?("("+idxs.length+")"):"";
   const c=document.getElementById("playedList");
-  if(!idxs.length){ c.innerHTML='<div class="empty">A&uacute;n no hay resultados cargados.</div>'; return; }
-  c.innerHTML=idxs.map(i=>{ const m=MATCHES[i],r=REAL[i];
-    const chips=m.preds.map((pred,pi)=>{ const e=evalPred(pred,r);
-      return '<div class="chip '+cls(e)+'"><span class="cn">'+PLAYERS[pi]+'</span><span class="cs">'+pred+'</span><span>'+icon(e)+'</span></div>'; }).join("");
-    return '<div class="match played"><div class="mhead"><div><div class="mteams"><span class="num">#'+m.n+'</span>'+m.h+' <span class="vs">vs</span> '+m.a+'</div>'+dateLine(m)+'</div><div class="mreal"><div class="scorebox done">'+r+'</div></div></div><div class="predchips">'+chips+'</div></div>'; }).join("");
+  if(!idxs.length){ c.innerHTML='<div class="empty">A\u00fan no hay resultados en esta fase.</div>'; return; }
+  c.innerHTML=idxs.map(i=>{ const m=MATCHES[i],ro=REAL[i],ko=isKO(m);
+    const chips=m.preds ? m.preds.map((pred,pi)=>{ const e=evalAny(m,i,pi);
+      const txt=ko?(pred?fmtPredKO(pred):"-"):(pred||"-");
+      return '<div class="chip '+cls(e)+'"><span class="cn">'+PLAYERS[pi]+'</span><span class="cs">'+txt+'</span><span>'+icon(e)+'</span></div>'; }).join("")
+      : '<div class="nopred">Sin pron\u00f3stico</div>';
+    const realhtml=ko?fmtRealKO(ro):ro.real;
+    return '<div class="match played '+(ko?"ko":"")+'"><div class="mhead"><div><div class="mteams"><span class="num">#'+(ko?m.n-100:m.n)+(ko?" 16vos":"")+'</span>'+m.h+' <span class="vs">vs</span> '+m.a+'</div>'+dateLine(m)+'</div><div class="mreal"><div class="scorebox done">'+realhtml+'</div></div></div><div class="predchips">'+chips+'</div></div>'; }).join("");
 }
+function setPhasePlayed(k){ curPhasePlayed=k; renderPlayed(); }
 
 function renderUpcoming(){
-  const idxs=MATCHES.map((_,i)=>i).filter(i=>!parse(REAL[i]))
+  const idxs=MATCHES.map((_,i)=>i).filter(i=>!(REAL[i]&&parse(getReal(i))))
     .sort((a,b)=>(MATCHES[a].date||"").localeCompare(MATCHES[b].date||"")||MATCHES[a].n-MATCHES[b].n);
   const c=document.getElementById("upcomingList");
   if(!idxs.length){ c.innerHTML='<div class="empty">🎉 Todos los partidos tienen resultado.</div>'; return; }
   let lastDay="";
-  c.innerHTML=idxs.map(i=>{ const m=MATCHES[i];
+  c.innerHTML=idxs.map(i=>{ const m=MATCHES[i],ko=isKO(m);
     let head="";
     if(m.fechaTxt!==lastDay){ lastDay=m.fechaTxt;
       const cnt=idxs.filter(j=>MATCHES[j].fechaTxt===m.fechaTxt).length;
-      head='<div class="dayhead"><span class="dd">'+m.fechaTxt+'</span><span class="dcount">'+cnt+' partido'+(cnt>1?'s':'')+'</span></div>'; }
-    const rows=m.preds.map((pred,pi)=>'<div class="predrow"><span class="who">'+PLAYERS[pi]+'</span><span class="pscore">'+pred+'</span></div>').join("");
-    return head+'<div class="match"><div class="mhead" onclick="toggleMatch('+i+')"><div><div class="mteams"><span class="num">#'+m.n+'</span>'+m.h+' <span class="vs">vs</span> '+m.a+'</div>'+dateLine(m)+'</div><div class="mreal"><span class="pending">⏳ por jugar</span></div></div><div class="mbody" id="body-'+i+'">'+rows+'</div></div>'; }).join("");
+      head='<div class="dayhead"><span class="dd">'+m.fechaTxt+(ko?' &middot; '+m.ronda:'')+'</span><span class="dcount">'+cnt+' partido'+(cnt>1?"s":"")+'</span></div>'; }
+    const rows=m.preds ? m.preds.map((pred,pi)=>{ const txt=ko?(pred?fmtPredKO(pred):"-"):(pred||"-");
+      return '<div class="predrow"><span class="who">'+PLAYERS[pi]+'</span><span class="pscore">'+txt+'</span></div>'; }).join("")
+      : '<div class="nopred">Sin pron\u00f3stico</div>';
+    return head+'<div class="match '+(ko?"ko":"")+'"><div class="mhead" onclick="toggleMatch('+i+')"><div><div class="mteams"><span class="num">#'+(ko?m.n-100+" 16vos":m.n)+'</span>'+m.h+' <span class="vs">vs</span> '+m.a+'</div>'+dateLine(m)+'</div><div class="mreal"><span class="pending">⏳ por jugar</span></div></div><div class="mbody" id="body-'+i+'">'+rows+'</div></div>'; }).join("");
   reopen();
 }
 
 function renderStats(){
   const c=document.getElementById("statsList");
-  const played=MATCHES.map((_,i)=>i).filter(i=>parse(REAL[i]));
-  if(!played.length){ c.innerHTML='<div class="empty">A&uacute;n no hay resultados para calcular estad&iacute;sticas.</div>'; return; }
-
+  const played=MATCHES.map((_,i)=>i).filter(i=>REAL[i]&&parse(getReal(i)));
+  if(!played.length){ c.innerHTML='<div class="empty">A\u00fan no hay resultados para calcular estad\u00edsticas.</div>'; return; }
   const tt=scores();
-  // Líder, total de aciertos, exactos
   const rk=PLAYERS.map((nm,i)=>({nm,...tt[i]})).sort((a,b)=>b.pts-a.pts||b.ex-a.ex);
   const lider=rk[0];
-  const totalPts=tt.reduce((s,t)=>s+t.pts,0);
   const totalEx=tt.reduce((s,t)=>s+t.ex,0);
-
-  // Goles del torneo (partidos jugados)
-  let goles=0, empates=0, golizas=0;
-  played.forEach(i=>{ const p=parse(REAL[i]); goles+=p[0]+p[1];
-    if(p[0]===p[1])empates++; if(Math.abs(p[0]-p[1])>=3)golizas++; });
-
-  // Mejor jugador por % de acierto
-  const efic=PLAYERS.map((nm,i)=>{ const g=tt[i].gen, tot=played.filter(j=>parse(MATCHES[j].preds[i])).length;
-    return {nm, pct: tot? Math.round(g*100/tot):0, g, tot}; }).sort((a,b)=>b.pct-a.pct);
-
-  // Partidos más acertados y más fallados (todos los que empaten)
-  const perMatch=played.map(i=>{ let ok=0; MATCHES[i].preds.forEach(pr=>{ if(evalPred(pr,REAL[i])>=1)ok++; });
+  let goles=0, empates=0, golizas=0, penales=0;
+  played.forEach(i=>{ const p=parse(getReal(i)); goles+=p[0]+p[1];
+    if(p[0]===p[1]){ empates++; if(REAL[i].pen)penales++; }
+    if(Math.abs(p[0]-p[1])>=3)golizas++; });
+  // efectividad por jugador (sobre partidos donde tiene pronóstico)
+  const efic=PLAYERS.map((nm,i)=>{ const g=tt[i].gen,
+    tot=played.filter(j=>MATCHES[j].preds&&MATCHES[j].preds[i]).length;
+    return {nm, pct: tot?Math.round(g*100/tot):0, g, tot}; }).sort((a,b)=>b.pct-a.pct);
+  // partidos más acertados / más fallados
+  const perMatch=played.filter(i=>MATCHES[i].preds).map(i=>{ let ok=0;
+    MATCHES[i].preds.forEach((_,pi)=>{ if(evalAny(MATCHES[i],i,pi)>=1)ok++; });
     return {i, ok, m:MATCHES[i]}; });
-  const maxN=Math.max(...perMatch.map(x=>x.ok));
-  const minN=Math.min(...perMatch.map(x=>x.ok));
-  const masAcertados=perMatch.filter(x=>x.ok===maxN);
-  const masFallados=perMatch.filter(x=>x.ok===minN);
+  const maxN=Math.max(...perMatch.map(x=>x.ok)), minN=Math.min(...perMatch.map(x=>x.ok));
+  const masAc=perMatch.filter(x=>x.ok===maxN), masFa=perMatch.filter(x=>x.ok===minN);
 
   const cards=[
-    {h:"Líder actual", v:lider.nm, s:lider.pts+" pts &middot; "+lider.ex+" exactos"},
+    {h:"L\u00edder actual", v:lider.nm, s:lider.pts+" pts &middot; "+lider.ex+" exactos"},
     {h:"Partidos jugados", v:played.length, s:"de "+MATCHES.length+" totales"},
     {h:"Goles anotados", v:goles, s:(goles/played.length).toFixed(1)+" por partido"},
-    {h:"Empates", v:empates, s:Math.round(empates*100/played.length)+"% de los partidos"},
-    {h:"Goleadas (3+ dif.)", v:golizas, s:"diferencia de 3 o más"},
+    {h:"Empates", v:empates, s:penales+" def. por penales"},
+    {h:"Goleadas (3+ dif.)", v:golizas, s:"diferencia de 3 o m\u00e1s"},
     {h:"Marcadores exactos", v:totalEx, s:"aciertos perfectos de todos"},
   ];
   const cardsHtml='<div class="statgrid">'+cards.map(x=>
     '<div class="statcard"><div class="sh">'+x.h+'</div><div class="sv">'+x.v+'</div><div class="ss">'+x.s+'</div></div>').join("")+'</div>';
-
-  const maxPct=efic[0].pct||1;
-  const eficHtml='<div class="statcard" style="margin-bottom:14px;"><div class="sh">Efectividad (acierto resultado/marcador)</div>'+
+  const eficHtml='<div class="statcard" style="margin-bottom:14px;"><div class="sh">Efectividad (aciertos / con pron\u00f3stico)</div>'+
     efic.map(e=>'<div class="statrow"><span class="sn">'+e.nm+'</span><span>'+e.pct+'% &middot; '+e.g+'/'+e.tot+'</span></div>'+
-    '<div class="bar"><i style="width:'+(e.pct)+'%"></i></div>').join("")+'</div>';
-
+    '<div class="bar"><i style="width:'+e.pct+'%"></i></div>').join("")+'</div>';
   const exHtml='<div class="statcard" style="margin-bottom:14px;"><div class="sh">Marcadores exactos por jugador</div>'+
     PLAYERS.map((nm,i)=>({nm,ex:tt[i].ex})).sort((a,b)=>b.ex-a.ex).map(e=>
     '<div class="statrow"><span class="sn">'+e.nm+'</span><span>'+e.ex+' exactos</span></div>').join("")+'</div>';
-
-  const matchListHtml=(arr)=>arr.sort((a,b)=>a.m.n-b.m.n).map(x=>
-    '<div class="statrow"><span class="sn">'+x.m.h+' vs '+x.m.a+'</span><span>'+REAL[x.i]+'</span></div>').join("");
-  const partidosHtml='<div class="statgrid">'+
-    '<div class="statcard"><div class="sh">Partidos más acertados ('+maxN+' de '+PLAYERS.length+')</div>'+
-      matchListHtml(masAcertados)+'</div>'+
-    '<div class="statcard"><div class="sh">Partidos más fallados ('+minN+' de '+PLAYERS.length+')</div>'+
-      matchListHtml(masFallados)+'</div>'+
-    '</div>';
-
-  c.innerHTML=cardsHtml+eficHtml+exHtml+partidosHtml;
+  const listHtml=(arr)=>arr.sort((a,b)=>a.m.n-b.m.n).map(x=>
+    '<div class="statrow"><span class="sn">'+x.m.h+' vs '+x.m.a+'</span><span>'+getReal(x.i)+'</span></div>').join("");
+  const partHtml='<div class="statgrid">'+
+    '<div class="statcard"><div class="sh">M\u00e1s acertados ('+maxN+' de '+PLAYERS.length+')</div>'+listHtml(masAc)+'</div>'+
+    '<div class="statcard"><div class="sh">M\u00e1s fallados ('+minN+' de '+PLAYERS.length+')</div>'+listHtml(masFa)+'</div></div>';
+  c.innerHTML=cardsHtml+eficHtml+exHtml+partHtml;
 }
 
 let openSet=new Set();
 function toggleMatch(i){ const b=document.getElementById("body-"+i); if(!b)return; b.classList.toggle("open"); b.classList.contains("open")?openSet.add(i):openSet.delete(i); }
 function reopen(){ openSet.forEach(i=>{const b=document.getElementById("body-"+i); if(b)b.classList.add("open");}); }
-
 function showTab(t){ document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.tab===t));
-  document.getElementById("tabla").classList.toggle("hidden",t!=="tabla");
-  document.getElementById("partidos").classList.toggle("hidden",t!=="partidos");
+  document.getElementById("tabla").classList.toggle("hidden",t!=="tabla"); document.getElementById("partidos").classList.toggle("hidden",t!=="partidos");
   document.getElementById("stats").classList.toggle("hidden",t!=="stats"); }
 function refresh(){ renderBoard(); renderPlayed(); renderUpcoming(); renderStats(); }
-
 loadResults();
 </script>
 </body>
