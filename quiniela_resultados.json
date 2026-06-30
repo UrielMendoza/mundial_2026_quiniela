@@ -1,5 +1,5 @@
 {
-  "generado": "2026-06-25T00:00:00.000Z",
+  "generado": "2026-06-30T00:00:00.000Z",
   "resultados": [
     {
       "n": 1,
@@ -432,6 +432,134 @@
       "h": "Jordania",
       "a": "Argentina",
       "real": "1-3"
+    },
+    {
+      "n": 101,
+      "ronda": "16vos",
+      "h": "Sudáfrica",
+      "a": "Canadá",
+      "real": "0-1",
+      "pen": null
+    },
+    {
+      "n": 102,
+      "ronda": "16vos",
+      "h": "Brasil",
+      "a": "Japón",
+      "real": "2-1",
+      "pen": null
+    },
+    {
+      "n": 103,
+      "ronda": "16vos",
+      "h": "Alemania",
+      "a": "Paraguay",
+      "real": "1-1",
+      "pen": "Paraguay"
+    },
+    {
+      "n": 104,
+      "ronda": "16vos",
+      "h": "Países Bajos",
+      "a": "Marruecos",
+      "real": "1-1",
+      "pen": "Marruecos"
+    },
+    {
+      "n": 105,
+      "ronda": "16vos",
+      "h": "Costa de Marfil",
+      "a": "Noruega",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 106,
+      "ronda": "16vos",
+      "h": "Francia",
+      "a": "Suecia",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 107,
+      "ronda": "16vos",
+      "h": "México",
+      "a": "Ecuador",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 108,
+      "ronda": "16vos",
+      "h": "Inglaterra",
+      "a": "RD del Congo",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 109,
+      "ronda": "16vos",
+      "h": "Bélgica",
+      "a": "Senegal",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 110,
+      "ronda": "16vos",
+      "h": "Estados Unidos",
+      "a": "Bosnia y Herzegovina",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 111,
+      "ronda": "16vos",
+      "h": "España",
+      "a": "Austria",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 112,
+      "ronda": "16vos",
+      "h": "Portugal",
+      "a": "Croacia",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 113,
+      "ronda": "16vos",
+      "h": "Suiza",
+      "a": "Argelia",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 114,
+      "ronda": "16vos",
+      "h": "Australia",
+      "a": "Egipto",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 115,
+      "ronda": "16vos",
+      "h": "Argentina",
+      "a": "Cabo Verde",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 116,
+      "ronda": "16vos",
+      "h": "Colombia",
+      "a": "Ghana",
+      "real": null,
+      "pen": null
     }
   ]
 }
