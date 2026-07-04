@@ -518,7 +518,7 @@
       "ronda": "16vos",
       "h": "España",
       "a": "Austria",
-      "real": null,
+      "real": "3-0",
       "pen": null
     },
     {
@@ -526,7 +526,7 @@
       "ronda": "16vos",
       "h": "Portugal",
       "a": "Croacia",
-      "real": null,
+      "real": "2-1",
       "pen": null
     },
     {
@@ -534,7 +534,7 @@
       "ronda": "16vos",
       "h": "Suiza",
       "a": "Argelia",
-      "real": null,
+      "real": "2-0",
       "pen": null
     },
     {
@@ -542,15 +542,15 @@
       "ronda": "16vos",
       "h": "Australia",
       "a": "Egipto",
-      "real": null,
-      "pen": null
+      "real": "1-1",
+      "pen": "Egipto"
     },
     {
       "n": 115,
       "ronda": "16vos",
       "h": "Argentina",
       "a": "Cabo Verde",
-      "real": null,
+      "real": "3-2",
       "pen": null
     },
     {
@@ -558,7 +558,7 @@
       "ronda": "16vos",
       "h": "Colombia",
       "a": "Ghana",
-      "real": null,
+      "real": "1-0",
       "pen": null
     }
   ]
