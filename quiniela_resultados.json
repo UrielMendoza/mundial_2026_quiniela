@@ -1,5 +1,5 @@
 {
-  "generado": "2026-06-30T00:00:00.000Z",
+  "generado": "2026-07-05T00:00:00.000Z",
   "resultados": [
     {
       "n": 1,
@@ -559,6 +559,70 @@
       "h": "Colombia",
       "a": "Ghana",
       "real": "1-0",
+      "pen": null
+    },
+    {
+      "n": 201,
+      "ronda": "Octavos",
+      "h": "Francia",
+      "a": "Paraguay",
+      "real": "1-0",
+      "pen": null
+    },
+    {
+      "n": 202,
+      "ronda": "Octavos",
+      "h": "Canadá",
+      "a": "Marruecos",
+      "real": "0-3",
+      "pen": null
+    },
+    {
+      "n": 203,
+      "ronda": "Octavos",
+      "h": "Portugal",
+      "a": "España",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 204,
+      "ronda": "Octavos",
+      "h": "Estados Unidos",
+      "a": "Bélgica",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 205,
+      "ronda": "Octavos",
+      "h": "Noruega",
+      "a": "Brasil",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 206,
+      "ronda": "Octavos",
+      "h": "México",
+      "a": "Inglaterra",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 207,
+      "ronda": "Octavos",
+      "h": "Argentina",
+      "a": "Egipto",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 208,
+      "ronda": "Octavos",
+      "h": "Suiza",
+      "a": "Colombia",
+      "real": null,
       "pen": null
     }
   ]
