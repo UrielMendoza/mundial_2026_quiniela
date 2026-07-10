@@ -1,5 +1,5 @@
 {
-  "generado": "2026-07-05T00:00:00.000Z",
+  "generado": "2026-07-09T00:00:00.000Z",
   "resultados": [
     {
       "n": 1,
@@ -582,7 +582,7 @@
       "ronda": "Octavos",
       "h": "Portugal",
       "a": "España",
-      "real": null,
+      "real": "0-1",
       "pen": null
     },
     {
@@ -590,7 +590,7 @@
       "ronda": "Octavos",
       "h": "Estados Unidos",
       "a": "Bélgica",
-      "real": null,
+      "real": "1-4",
       "pen": null
     },
     {
@@ -598,7 +598,7 @@
       "ronda": "Octavos",
       "h": "Noruega",
       "a": "Brasil",
-      "real": null,
+      "real": "2-1",
       "pen": null
     },
     {
@@ -606,7 +606,7 @@
       "ronda": "Octavos",
       "h": "México",
       "a": "Inglaterra",
-      "real": null,
+      "real": "2-3",
       "pen": null
     },
     {
@@ -614,7 +614,7 @@
       "ronda": "Octavos",
       "h": "Argentina",
       "a": "Egipto",
-      "real": null,
+      "real": "3-2",
       "pen": null
     },
     {
@@ -622,6 +622,38 @@
       "ronda": "Octavos",
       "h": "Suiza",
       "a": "Colombia",
+      "real": "0-0",
+      "pen": "Suiza"
+    },
+    {
+      "n": 301,
+      "ronda": "Cuartos",
+      "h": "Francia",
+      "a": "Marruecos",
+      "real": "2-0",
+      "pen": null
+    },
+    {
+      "n": 302,
+      "ronda": "Cuartos",
+      "h": "España",
+      "a": "Bélgica",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 303,
+      "ronda": "Cuartos",
+      "h": "Noruega",
+      "a": "Inglaterra",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 304,
+      "ronda": "Cuartos",
+      "h": "Argentina",
+      "a": "Suiza",
       "real": null,
       "pen": null
     }
