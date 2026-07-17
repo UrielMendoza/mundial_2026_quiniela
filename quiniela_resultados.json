@@ -1,5 +1,5 @@
 {
-  "generado": "2026-07-09T00:00:00.000Z",
+  "generado": "2026-07-15T00:00:00.000Z",
   "resultados": [
     {
       "n": 1,
@@ -638,7 +638,7 @@
       "ronda": "Cuartos",
       "h": "España",
       "a": "Bélgica",
-      "real": "2-1",
+      "real": null,
       "pen": null
     },
     {
@@ -646,7 +646,7 @@
       "ronda": "Cuartos",
       "h": "Noruega",
       "a": "Inglaterra",
-      "real": "1-2",
+      "real": null,
       "pen": null
     },
     {
@@ -654,7 +654,39 @@
       "ronda": "Cuartos",
       "h": "Argentina",
       "a": "Suiza",
-      "real": "3-1",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 401,
+      "ronda": "Semifinal",
+      "h": "Francia",
+      "a": "España",
+      "real": "0-2",
+      "pen": null
+    },
+    {
+      "n": 402,
+      "ronda": "Semifinal",
+      "h": "Inglaterra",
+      "a": "Argentina",
+      "real": "1-2",
+      "pen": null
+    },
+    {
+      "n": 501,
+      "ronda": "Tercer lugar",
+      "h": "Francia",
+      "a": "Inglaterra",
+      "real": null,
+      "pen": null
+    },
+    {
+      "n": 502,
+      "ronda": "Final",
+      "h": "España",
+      "a": "Argentina",
+      "real": null,
       "pen": null
     }
   ]
